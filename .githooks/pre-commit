@@ -1,0 +1,33 @@
+#!/bin/sh
+# pre-commit: block staged content that looks like a secret. This repo is public, and a
+# leaked key can only be fixed by rotating it, never by rewriting history.
+status=0
+names=$(git diff --cached --name-only --diff-filter=ACM)
+
+if printf '%s\n' "$names" | grep -qE '(^|/)\.env(\..*)?$' && ! printf '%s\n' "$names" | grep -qx '\.env\.example'; then
+  echo "pre-commit: BLOCKED: an env file is staged. Keys live in .env, which is never committed." >&2
+  status=1
+fi
+
+GL=$(command -v gitleaks || echo "$HOME/.local/bin/gitleaks")
+if [ -x "$GL" ]; then
+  if ! "$GL" protect --staged --no-banner --redact >/dev/null 2>&1; then
+    echo "pre-commit: BLOCKED: gitleaks found a possible secret. Run: gitleaks protect --staged -v" >&2
+    status=1
+  fi
+fi
+
+hits=$(git diff --cached --diff-filter=ACM -U0 | grep -nE \
+  -e 'sk-[A-Za-z0-9_-]{20,}' \
+  -e 'hf_[A-Za-z0-9]{20,}' \
+  -e 'LLM\|[A-Za-z0-9_-]{20,}' \
+  -e 'AKIA[0-9A-Z]{16}' \
+  -e 'BEGIN [A-Za-z ]*PRIVATE KEY' \
+  -e '(API_KEY|TOKEN|SECRET)=[A-Za-z0-9_/.|-]{16,}' \
+  | grep -vE 'your_|\$\{|<[a-z_-]+>' || true)
+if [ -n "$hits" ]; then
+  echo "pre-commit: BLOCKED: possible secret in staged lines:" >&2
+  printf '%s\n' "$hits" | sed 's/^/  /' >&2
+  status=1
+fi
+exit $status
