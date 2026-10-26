@@ -15,6 +15,22 @@ The organizers may change the terms; recheck that page before submitting.
 | Nov 9 | Live finals, winners announced |
 | ~Nov 10 | Bonus prizes (community vote, most viral, and others) announced |
 
+## Event links (all but the livestream need the Cerebral Valley login)
+
+| What | Where |
+|---|---|
+| Event details, problem statements, schedule | https://cerebralvalley.ai/e/meta-ai-developer-hackathon/details |
+| Hackathon Discord (join instructions inside) | https://cerebralvalley.ai/e/meta-ai-developer-hackathon/discord |
+| Livestream (kickoff, workshops) | https://cerebralvalley.ai/e/meta-ai-developer-hackathon/live |
+| Submit | https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit |
+
+- The kickoff (Oct 26, 12:00 PM ET) was recorded. The replay is an embed-only Vimeo video that
+  plays only on the Cerebral Valley site, so watch it there while logged in.
+- Next scheduled stream: Oct 27, 12:00 PM ET.
+- **Credits:** each participant claims their own $150 through the form linked in the event
+  announcements, by Nov 4, 9:00 PM ET. Credits arrive in batches (check the Billing page). A credit
+  card must be on the account to make calls; set a Spend Limit at $150 to avoid charges.
+
 ## Submission
 
 - Submit through Cerebral Valley: https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit
