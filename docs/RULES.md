@@ -76,6 +76,28 @@ the kickoff (Oct 26, 12:00 PM ET). The Official Rules also require it to be our 
   Credit Terms before claiming.
 - Partner credits for select participants: Baseten $100 + 2M TPM, Modal $100, Fireworks $25.
 
+## Meta Model API terms (read 2026-10-27)
+
+Sources: [Meta Model API Terms of Service](https://dev.meta.ai/legal/terms-of-service) (updated
+2026-10-09), [Acceptable Use Policy](https://dev.meta.ai/legal/acceptable-use-policy),
+[models](https://dev.meta.ai/docs/models.md), [geographic use](https://dev.meta.ai/legal/geographic-use-policy).
+
+- **Age, section 10.1:** "You and your End Users must be at least 18 years of age to use the Services
+  and Integrated Products" and "you will not create Integrated Products targeted at individuals under
+  the age of 18." **This shapes our product** (see the open issue on it): the only user is the parent,
+  every screen and output is addressed to the parent, and no child ever uses the app.
+- **Standard vs Contributor:** Standard models (`muse-spark-1.3`, etc.) do not train on our content
+  (5.1). `*-contributor` models may train on it (6.1) and must not get personal data (6.2).
+  **Use Standard models only.**
+- We own our inputs and outputs (4.1).
+- AUP: no emotion recognition in education; no evaluating people on personal traits; do not rely on
+  outputs for decisions affecting someone's rights, health or safety; disclose known limitations to
+  users; no likeness of real, identifiable people without consent.
+
+Models we plan to use (IDs from the models page, base URL `https://api.meta.ai/v1`):
+`sam-3.1` (Responses API, image or video plus text prompt), `muse-spark-1.3` (image input),
+`muse-image-1.0` (`/v1/images/generations`, `/v1/images/edits`).
+
 ## Ownership, licensing, privacy
 
 - We keep ownership, but the submission is licensed to Meta and partners **perpetually,
