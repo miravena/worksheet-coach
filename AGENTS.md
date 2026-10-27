@@ -9,6 +9,9 @@ This is a **public** repo for a hackathon entry. These rules apply to people and
   pre-push hook blocks them.
 - **No private material.** No real children's work, names or faces. No internal tooling paths.
 - **AI assistance** is disclosed with a `Co-Authored-By:` trailer naming the model.
+- **Build fresh.** All project code is written in this repo during the event (from Oct 26, 12:00 PM ET).
+  Never copy code from earlier projects, ours included. Open-source dependencies are fine; list them
+  with their licenses in the README.
 - **Rules:** read [docs/RULES.md](docs/RULES.md) before building anything that touches data,
   licenses or the submission.
 - **Work state** (what is open, who owns it, when it is due) lives in GitHub Issues and milestones,

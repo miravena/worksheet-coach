@@ -31,6 +31,19 @@ The organizers may change the terms; recheck that page before submitting.
   announcements, by Nov 4, 9:00 PM ET. Credits arrive in batches (check the Billing page). A credit
   card must be on the account to make calls; set a Spend Limit at $150 to avoid charges.
 
+## Build fresh: no code from before the hackathon
+
+The founder confirmed on 2026-10-27 that the entry must be built fresh during the event, starting at
+the kickoff (Oct 26, 12:00 PM ET). The Official Rules also require it to be our own original work.
+
+- Every line of project code is written inside the event window, in this repo. The repo's first commit
+  is 2026-10-26 17:35 ET, after kickoff.
+- **No copying from earlier projects**, including our own: not from ForeverYours, not from an older
+  worksheet generator, not from any other private repo. Write it again here instead.
+- Third-party open-source libraries, models and tools are allowed if their licenses are followed and
+  the project builds on top of them. Record each one in the README with its license.
+- Assets (worksheets, images, voice) are made during the event or clearly licensed for reuse.
+
 ## Submission
 
 - Submit through Cerebral Valley: https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit
