@@ -1,36 +1,126 @@
 # worksheet-coach
 
-Take a photo of a finished worksheet. Find out which problems are wrong, why, and get a short
-practice sheet aimed at the actual mistake. Not twenty more problems. The five that matter.
+Take a photo of a finished math worksheet. An agent finds which problems are wrong, works out
+the **one habit** behind the wrong answers, and writes a short practice sheet aimed at that
+habit, with an answer key it has checked against itself. Not twenty more problems. The five
+that matter.
 
-**Who it is for:** adults only (18+): tutors, parents, mentors, teachers, and adult students
-checking their own work. It is never used by or aimed at children (see [docs/RULES.md](docs/RULES.md)).
+**Who it is for:** adults only (18+): tutors, parents, mentors, teachers, and adult learners
+checking their own work (GED, nursing dosage math, trades math). It is never used by or aimed at
+children (see [docs/RULES.md](docs/RULES.md)).
 
 Built for the [Meta Global AI Developer Hackathon](https://cerebralvalley.ai/e/meta-ai-developer-hackathon)
 (indie track, theme "Build for Your World"), Oct 26 to Nov 4, 2026.
 
-## How it works (plan)
+## Why
 
-1. **SAM 3.1** segments the page into single problems.
-2. **Muse Spark** reads each crop, grades it, and explains the mistake in plain language.
-3. Across all problems it looks for the pattern (forgetting to carry, place value,
-   fraction denominators) and writes practice for that pattern.
-4. **Muse Image** draws the picture and word problems so the practice sheet looks like the
-   original. Output: a printable PDF and a 30-second summary for the person reviewing the work.
+A wrong answer on its own tells you little. "47 + 38 = 75" and "59 + 36 = 85" are the same
+mistake: the ten is never carried. An adult with ten minutes at the kitchen table needs to know
+*that*, not see red marks, and needs practice where the habit gives a visibly wrong answer.
+Answer checkers grade; they do not find the habit, and AI-written practice sheets can quietly
+ship wrong answer keys.
 
-Why segment first: hand a whole page to a model and you lose which problem broke and why.
-Per-problem crops keep that.
+## What the agent does
 
-## Status
+| Step | Model | What happens |
+|---|---|---|
+| 1. Read the sheet | **Muse Spark 1.3** | Title, instructions, subject and level, in parallel with step 2 |
+| 2. Cut it into problems | **SAM 3.1** | Segments every `number` on the page; code groups the boxes into one crop per problem (rows, then columns). If SAM finds too little, Muse Spark returns the problem boxes instead |
+| 3. Grade each crop | **Muse Spark 1.3** | One call per problem, structured output: what it read, what was written, the correct answer, verdict, the mistake and how the wrong answer was produced. Calls the API dropped are retried |
+| 4. Find the pattern | **Muse Spark 1.3** | Looks across all problems, right and wrong, and must show the wrong method reproduces each written answer |
+| 5. Write practice | **Muse Spark 1.3** | Drafts 7 problems in the same format. Each records the answer the habit would give, so the habit cannot hide |
+| 6. Check its own answer key | **Muse Spark 1.3** | Every answer is solved again in a separate call that never sees the draft. Code compares them (fractions, remainders, money, `x = 5`, algebra via SymPy). Disagreements go to a judge call; wrong keys are corrected or replaced, up to two rounds |
+| 7. Printable sheet | **Muse Image 1.0** | Draws the illustration for the top of the sheet from an idea Spark wrote. Problems and answers are typeset in code, so no digit is ever misdrawn. Page 2 is the answer key for the adult |
+| 8. Summary | **Muse Spark 1.3** | 30 seconds of reading for the adult: score, the habit, one thing to try together |
 
-Day 1. Nothing to run yet. Work is tracked in GitHub Issues.
+The web page shows every step live: SAM's boxes drawn on the photo, each problem turning green
+or red as its verdict lands, and a step trace naming the model behind each step.
 
-## Setup
+**Why segment first:** hand a whole page to a model and you lose which problem broke and why.
+Per-problem crops keep the evidence attached to the problem, and the adult can check it.
+
+## How well it works
+
+`python3 tests/accuracy.py --pattern` runs the test set (generated worksheets with planted
+mistakes and answer keys, in `tests/worksheets/`) and prints the score. On the first 10 sheets
+(2026-10-28):
+
+| Measure | Score |
+|---|---|
+| Sheets split into the right number of problems | 10/10 |
+| Right/wrong verdicts matching the answer key | 60/60 |
+| Written answers read correctly | 60/60 |
+| Planted mistake pattern found | 10/10 |
+
+Cost: about $0.07 per worksheet at list prices (Spark tokens including reasoning, one SAM
+image, one Muse Image), about 2 to 3 minutes per sheet.
+
+**Known limitations:** the test sheets are generated, so real handwriting and phone photos are
+harder than the score above suggests. The agent can misread handwriting; every verdict shows
+what it read so the adult can check before acting on it. It is a helper for an adult, not a
+grade.
+
+## Run it
+
+Needs Python 3.10+ and a Meta Model API key.
 
 ```sh
-cp .env.example .env      # add your Meta Model API key; .env is never committed
+pip install -r requirements.txt
+cp .env.example .env              # add META_MODEL_API_KEY; .env is never committed
 git config core.hooksPath .githooks
+python3 -m uvicorn app:app --port 8000
+# open http://localhost:8000, upload a photo or pick a sample sheet
 ```
+
+Settings (environment or `.env`):
+
+| Variable | Default | What it does |
+|---|---|---|
+| `SPEND_CAP_USD` | 60 | Hard cap on estimated spend. Meta's spend limit only sends an email, so the app refuses new calls past this |
+| `RUNS_PER_IP_PER_HOUR` | 5 | Abuse guard for a public demo |
+| `MAX_CONCURRENT_RUNS` | 2 | Runs at once |
+| `RUN_COST_ESTIMATE` | 0.30 | Spend assumed per run when checking the cap |
+| `DEMO_TOKEN` | unset | If set, runs need `?token=` |
+| `REPLAY` | unset | `1` replays a saved run of a sample sheet instead of calling the API |
+
+Command line: `python3 tests/accuracy.py ws01 ws05` scores some sheets;
+`python3 -m pytest tests/test_app.py` tests the web app with the pipeline stubbed.
+
+## Code map
+
+| Path | What |
+|---|---|
+| `coach/meta.py` | Meta Model API client: retries, spend ledger and hard cap |
+| `coach/segment.py` | SAM 3.1 segmentation and grouping into problems; Spark fallback |
+| `coach/grade.py` | Per-problem grading with an evidence record |
+| `coach/pattern.py` | The pattern across the sheet |
+| `coach/practice.py` | Practice drafting and the answer-key self-check |
+| `coach/answers.py` | Answer equality in code |
+| `coach/pdf.py` | Printable sheet with the Muse Image illustration |
+| `coach/summary.py` | The 30-second summary |
+| `coach/pipeline.py` | The agent loop, reporting each step |
+| `app.py`, `web/` | Web app: upload, live view (Server-Sent Events), results |
+| `tests/` | Test set generator, accuracy script, web app tests |
+
+## Meta models used
+
+`muse-spark-1.3` (Standard mode, so our content is not used for training), `sam-3.1`,
+`muse-image-1.0`, all through the Meta Model API. No Contributor-mode models.
+
+## Dependencies and licenses
+
+| Dependency | License |
+|---|---|
+| [FastAPI](https://github.com/fastapi/fastapi) | MIT |
+| [Uvicorn](https://github.com/encode/uvicorn) | BSD-3-Clause |
+| [python-multipart](https://github.com/Kludex/python-multipart) | Apache-2.0 |
+| [Requests](https://github.com/psf/requests) | Apache-2.0 |
+| [Pillow](https://github.com/python-pillow/Pillow) | MIT-CMU (HPND) |
+| [SymPy](https://github.com/sympy/sympy) | BSD-3-Clause |
+| DejaVu fonts (system package, not bundled) | Bitstream Vera license, public domain changes |
+
+All project code was written during the hackathon, in this repo. The test worksheets are
+generated by `tests/make_testset.py`; no real learner's work is used anywhere.
 
 ## License
 
