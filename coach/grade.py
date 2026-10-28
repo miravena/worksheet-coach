@@ -37,13 +37,18 @@ instructions are: "{instructions}".
    Use "" if the answer is blank.
 3. correct_answer: solve the problem yourself, carefully, step by step in your head. Give it in the
    same form the worksheet expects.
-4. is_correct: true only if the written answer is mathematically equal to the correct answer.
+4. is_correct: true only if the written answer is mathematically equal to the correct answer AND
+   in the form the instructions ask for (lowest terms, rounded to a place, with units, as a
+   decimal...). "6/9" is wrong when the instructions say "lowest terms".
 5. mistake: if wrong, name the error in a few words (for example "forgot to carry the 1",
    "added the denominators"). If right, "".
 6. explanation: one or two plain sentences for the adult checking the work: what went wrong, and
    how the written answer was probably produced. Call the person "the learner"; never guess a
    gender. If right, "".
 7. readable: false if you cannot read the problem or the answer.
+
+Handwriting: look closely for decimal points, minus signs, fraction bars and remainders ("R")
+in the written answer; a missing decimal point changes the answer.
 """
 
 
@@ -66,10 +71,19 @@ class Verdict:
         return asdict(self)
 
 
+def _for_model(crop):
+    """Small crops lose decimal points; upscale so the short side is at least 360 px."""
+    from PIL import Image
+
+    w, h = crop.size
+    k = max(1.0, 360 / max(1, min(w, h)))
+    return crop.resize((int(w * k), int(h * k)), Image.LANCZOS) if k > 1.01 else crop
+
+
 def grade_problem(p: Problem, instructions: str = "", effort: str = "low") -> Verdict:
     try:
         out, st = meta.chat(
-            [meta.user_msg(GRADE_PROMPT.format(instructions=instructions or "not given"), p.crop)],
+            [meta.user_msg(GRADE_PROMPT.format(instructions=instructions or "not given"), _for_model(p.crop))],
             schema=GRADE_SCHEMA, schema_name="grade", effort=effort,
         )
         return Verdict(p.index, p.box.as_list(), **out, seconds=round(st.seconds, 1), usd=round(st.usd, 5))

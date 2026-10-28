@@ -39,10 +39,14 @@ MATCH_SCHEMA = {
 
 def pattern_matches(found: str, planted: str | None) -> bool:
     if not planted:
-        return found.strip().lower() in ("no mistakes", "none", "")
+        f = found.strip().lower()
+        return f in ("no mistakes", "none", "") or "no pattern" in f
     out, _ = meta.chat([{"role": "user", "content":
-                         f"Do these two descriptions name the same arithmetic misconception?\n"
-                         f"A: {planted}\nB: {found}"}],
+                         "A math teacher wrote description A of a learner's habit. An agent wrote "
+                         "description B from the same worksheet. Would the teacher agree B names the "
+                         "same wrong procedure, even if worded differently, more specific, or more "
+                         "general? Answer false if B names a different procedure or only part of a "
+                         f"two-way habit.\nA: {planted}\nB: {found}"}],
                        schema=MATCH_SCHEMA, schema_name="match", effort="low")
     return bool(out["same"])
 
