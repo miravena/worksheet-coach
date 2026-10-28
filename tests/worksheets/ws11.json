@@ -1,0 +1,58 @@
+{
+  "id": "ws11",
+  "title": "Order of Operations (ASVAB practice)",
+  "instructions": "Work out each one.",
+  "level": "adult: ASVAB",
+  "pattern": "works left to right, ignoring multiplication and division first",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "3 + 4 x 2 =",
+      "correct_answer": "11",
+      "written_answer": "14",
+      "is_correct": false,
+      "mistake": "ignores order of operations"
+    },
+    {
+      "n": 2,
+      "prompt": "20 - 4 x 3 =",
+      "correct_answer": "8",
+      "written_answer": "48",
+      "is_correct": false,
+      "mistake": "ignores order of operations"
+    },
+    {
+      "n": 3,
+      "prompt": "7 x 3 + 2 =",
+      "correct_answer": "23",
+      "written_answer": "23",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "8 + 12 ÷ 4 =",
+      "correct_answer": "11",
+      "written_answer": "5",
+      "is_correct": false,
+      "mistake": "ignores order of operations"
+    },
+    {
+      "n": 5,
+      "prompt": "(4 + 2) x 5 =",
+      "correct_answer": "30",
+      "written_answer": "30",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "9 - 6 ÷ 3 =",
+      "correct_answer": "7",
+      "written_answer": "1",
+      "is_correct": false,
+      "mistake": "ignores order of operations"
+    }
+  ],
+  "photo": "ws11_photo.jpg"
+}

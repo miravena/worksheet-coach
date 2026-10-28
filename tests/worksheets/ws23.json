@@ -1,0 +1,58 @@
+{
+  "id": "ws23",
+  "title": "Adding Decimals, one left blank",
+  "instructions": "Add.",
+  "level": "grade 5",
+  "pattern": "lines up the last digits instead of the decimal points",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "1.9 + 0.45 =",
+      "correct_answer": "2.35",
+      "written_answer": "0.64",
+      "is_correct": false,
+      "mistake": "decimal alignment"
+    },
+    {
+      "n": 2,
+      "prompt": "8.25 + 0.5 =",
+      "correct_answer": "8.75",
+      "written_answer": "8.30",
+      "is_correct": false,
+      "mistake": "decimal alignment"
+    },
+    {
+      "n": 3,
+      "prompt": "3.2 + 4.1 =",
+      "correct_answer": "7.3",
+      "written_answer": "7.3",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "2.5 + 0.25 =",
+      "correct_answer": "2.75",
+      "written_answer": "",
+      "is_correct": false,
+      "mistake": "left blank"
+    },
+    {
+      "n": 5,
+      "prompt": "6.04 + 3.9 =",
+      "correct_answer": "9.94",
+      "written_answer": "6.43",
+      "is_correct": false,
+      "mistake": "decimal alignment"
+    },
+    {
+      "n": 6,
+      "prompt": "1.5 + 2.5 =",
+      "correct_answer": "4.0",
+      "written_answer": "4.0",
+      "is_correct": true,
+      "mistake": null
+    }
+  ],
+  "photo": "ws23_photo.jpg"
+}

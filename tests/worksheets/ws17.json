@@ -1,0 +1,57 @@
+{
+  "id": "ws17",
+  "title": "Rounding Whole Numbers",
+  "instructions": "Round to the place named.",
+  "level": "grade 4",
+  "pattern": "always rounds down instead of to the nearest",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "Round 3486 to the nearest hundred.",
+      "correct_answer": "3500",
+      "written_answer": "3400",
+      "is_correct": false,
+      "mistake": "rounds down only"
+    },
+    {
+      "n": 2,
+      "prompt": "Round 2718 to the nearest ten.",
+      "correct_answer": "2720",
+      "written_answer": "2710",
+      "is_correct": false,
+      "mistake": "rounds down only"
+    },
+    {
+      "n": 3,
+      "prompt": "Round 45672 to the nearest thousand.",
+      "correct_answer": "46000",
+      "written_answer": "45000",
+      "is_correct": false,
+      "mistake": "rounds down only"
+    },
+    {
+      "n": 4,
+      "prompt": "Round 5230 to the nearest hundred.",
+      "correct_answer": "5200",
+      "written_answer": "5200",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "Round 8904 to the nearest ten.",
+      "correct_answer": "8900",
+      "written_answer": "8900",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "Round 1951 to the nearest hundred.",
+      "correct_answer": "2000",
+      "written_answer": "1900",
+      "is_correct": false,
+      "mistake": "rounds down only"
+    }
+  ]
+}

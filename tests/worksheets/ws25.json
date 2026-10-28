@@ -1,0 +1,57 @@
+{
+  "id": "ws25",
+  "title": "Multiplying Decimals",
+  "instructions": "Multiply.",
+  "level": "grade 6",
+  "pattern": "counts the decimal places of one factor instead of both",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "0.4 x 0.3 =",
+      "correct_answer": "0.12",
+      "written_answer": "1.2",
+      "is_correct": false,
+      "mistake": "decimal places"
+    },
+    {
+      "n": 2,
+      "prompt": "1.2 x 0.5 =",
+      "correct_answer": "0.6",
+      "written_answer": "6",
+      "is_correct": false,
+      "mistake": "decimal places"
+    },
+    {
+      "n": 3,
+      "prompt": "0.06 x 0.3 =",
+      "correct_answer": "0.018",
+      "written_answer": "0.18",
+      "is_correct": false,
+      "mistake": "decimal places"
+    },
+    {
+      "n": 4,
+      "prompt": "4 x 0.25 =",
+      "correct_answer": "1",
+      "written_answer": "1",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "3.5 x 0.2 =",
+      "correct_answer": "0.7",
+      "written_answer": "7",
+      "is_correct": false,
+      "mistake": "decimal places"
+    },
+    {
+      "n": 6,
+      "prompt": "0.8 x 0.8 =",
+      "correct_answer": "0.64",
+      "written_answer": "6.4",
+      "is_correct": false,
+      "mistake": "decimal places"
+    }
+  ]
+}

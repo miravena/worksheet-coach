@@ -1,0 +1,58 @@
+{
+  "id": "ws27",
+  "title": "Weight Conversions (nursing practice)",
+  "instructions": "Write the number only.",
+  "level": "adult: nursing",
+  "pattern": "multiplies by 2.2 when changing pounds to kilograms",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "Convert 154 lb to kg. (1 kg = 2.2 lb)",
+      "correct_answer": "70",
+      "written_answer": "338.8",
+      "is_correct": false,
+      "mistake": "multiplies instead of dividing"
+    },
+    {
+      "n": 2,
+      "prompt": "Convert 110 lb to kg. (1 kg = 2.2 lb)",
+      "correct_answer": "50",
+      "written_answer": "242",
+      "is_correct": false,
+      "mistake": "multiplies instead of dividing"
+    },
+    {
+      "n": 3,
+      "prompt": "Convert 88 lb to kg. (1 kg = 2.2 lb)",
+      "correct_answer": "40",
+      "written_answer": "193.6",
+      "is_correct": false,
+      "mistake": "multiplies instead of dividing"
+    },
+    {
+      "n": 4,
+      "prompt": "Convert 30 kg to lb. (1 kg = 2.2 lb)",
+      "correct_answer": "66",
+      "written_answer": "66",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "Convert 45 kg to lb. (1 kg = 2.2 lb)",
+      "correct_answer": "99",
+      "written_answer": "99",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "Convert 176 lb to kg. (1 kg = 2.2 lb)",
+      "correct_answer": "80",
+      "written_answer": "387.2",
+      "is_correct": false,
+      "mistake": "multiplies instead of dividing"
+    }
+  ],
+  "photo": "ws27_photo.jpg"
+}

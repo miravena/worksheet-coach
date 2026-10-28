@@ -1,0 +1,58 @@
+{
+  "id": "ws13",
+  "title": "Subtracting Negative Numbers",
+  "instructions": "Subtract.",
+  "level": "adult: pre-algebra",
+  "pattern": "treats subtracting a negative as subtracting a positive",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "5 - (-3) =",
+      "correct_answer": "8",
+      "written_answer": "2",
+      "is_correct": false,
+      "mistake": "subtracting a negative"
+    },
+    {
+      "n": 2,
+      "prompt": "-4 - (-6) =",
+      "correct_answer": "2",
+      "written_answer": "-10",
+      "is_correct": false,
+      "mistake": "subtracting a negative"
+    },
+    {
+      "n": 3,
+      "prompt": "-3 - 5 =",
+      "correct_answer": "-8",
+      "written_answer": "-8",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "7 - (-2) =",
+      "correct_answer": "9",
+      "written_answer": "5",
+      "is_correct": false,
+      "mistake": "subtracting a negative"
+    },
+    {
+      "n": 5,
+      "prompt": "8 - 3 =",
+      "correct_answer": "5",
+      "written_answer": "5",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "-1 - (-9) =",
+      "correct_answer": "8",
+      "written_answer": "-10",
+      "is_correct": false,
+      "mistake": "subtracting a negative"
+    }
+  ],
+  "photo": "ws13_photo.jpg"
+}

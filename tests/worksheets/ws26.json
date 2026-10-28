@@ -1,0 +1,57 @@
+{
+  "id": "ws26",
+  "title": "Multiplying Integers (ASVAB practice)",
+  "instructions": "Multiply.",
+  "level": "adult: ASVAB",
+  "pattern": "answers negative times negative as a negative",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "-3 x 4 =",
+      "correct_answer": "-12",
+      "written_answer": "-12",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "-5 x -6 =",
+      "correct_answer": "30",
+      "written_answer": "-30",
+      "is_correct": false,
+      "mistake": "negative times negative"
+    },
+    {
+      "n": 3,
+      "prompt": "-8 x -2 =",
+      "correct_answer": "16",
+      "written_answer": "-16",
+      "is_correct": false,
+      "mistake": "negative times negative"
+    },
+    {
+      "n": 4,
+      "prompt": "7 x -3 =",
+      "correct_answer": "-21",
+      "written_answer": "-21",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "-4 x -9 =",
+      "correct_answer": "36",
+      "written_answer": "-36",
+      "is_correct": false,
+      "mistake": "negative times negative"
+    },
+    {
+      "n": 6,
+      "prompt": "6 x -5 =",
+      "correct_answer": "-30",
+      "written_answer": "-30",
+      "is_correct": true,
+      "mistake": null
+    }
+  ]
+}

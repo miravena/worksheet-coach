@@ -1,0 +1,74 @@
+{
+  "id": "ws30",
+  "title": "Exponents",
+  "instructions": "Work out each power.",
+  "level": "adult: pre-algebra",
+  "pattern": "multiplies the base by the exponent",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "4^2 =",
+      "correct_answer": "16",
+      "written_answer": "8",
+      "is_correct": false,
+      "mistake": "exponent as multiplication"
+    },
+    {
+      "n": 2,
+      "prompt": "3^3 =",
+      "correct_answer": "27",
+      "written_answer": "9",
+      "is_correct": false,
+      "mistake": "exponent as multiplication"
+    },
+    {
+      "n": 3,
+      "prompt": "5^2 =",
+      "correct_answer": "25",
+      "written_answer": "10",
+      "is_correct": false,
+      "mistake": "exponent as multiplication"
+    },
+    {
+      "n": 4,
+      "prompt": "2^4 =",
+      "correct_answer": "16",
+      "written_answer": "8",
+      "is_correct": false,
+      "mistake": "exponent as multiplication"
+    },
+    {
+      "n": 5,
+      "prompt": "2^2 =",
+      "correct_answer": "4",
+      "written_answer": "4",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "10^2 =",
+      "correct_answer": "100",
+      "written_answer": "20",
+      "is_correct": false,
+      "mistake": "exponent as multiplication"
+    },
+    {
+      "n": 7,
+      "prompt": "6^2 =",
+      "correct_answer": "36",
+      "written_answer": "12",
+      "is_correct": false,
+      "mistake": "exponent as multiplication"
+    },
+    {
+      "n": 8,
+      "prompt": "2^3 =",
+      "correct_answer": "8",
+      "written_answer": "6",
+      "is_correct": false,
+      "mistake": "exponent as multiplication"
+    }
+  ],
+  "photo": "ws30_photo.jpg"
+}

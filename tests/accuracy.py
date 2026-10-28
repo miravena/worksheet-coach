@@ -7,6 +7,7 @@ With --pattern it also finds the pattern and asks Muse Spark whether it names th
 Run:  python3 tests/accuracy.py                 # all sheets, segment + grade
       python3 tests/accuracy.py ws01 ws05       # some sheets
       python3 tests/accuracy.py --pattern       # also score the pattern
+      python3 tests/accuracy.py --photo ws11    # use the phone-photo variant where a sheet has one
 A change that lowers the score gets reverted.
 """
 
@@ -46,9 +47,9 @@ def pattern_matches(found: str, planted: str | None) -> bool:
     return bool(out["same"])
 
 
-def run_sheet(ws: str, with_pattern: bool) -> dict:
+def run_sheet(ws: str, with_pattern: bool, photo: bool = False) -> dict:
     key = json.loads((SHEETS / f"{ws}.json").read_text())
-    img = Image.open(SHEETS / f"{ws}.png")
+    img = Image.open(SHEETS / ((key.get("photo") if photo else None) or f"{ws}.png"))
     t0 = time.time()
     seg = segment.segment_page(img)
     verdicts = grade.grade_all(seg.problems, key.get("instructions", ""))
@@ -91,12 +92,13 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("sheets", nargs="*")
     ap.add_argument("--pattern", action="store_true")
+    ap.add_argument("--photo", action="store_true", help="use wsNN_photo.jpg when the key names one")
     ap.add_argument("--workers", type=int, default=3)
     a = ap.parse_args()
     sheets = a.sheets or sorted(p.stem for p in SHEETS.glob("ws*.json"))
     spent0 = meta.LEDGER.total
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
-        results = list(ex.map(lambda s: run_sheet(s, a.pattern), sheets))
+        results = list(ex.map(lambda s: run_sheet(s, a.pattern, a.photo), sheets))
 
     print(f"{'sheet':<6} {'title':<28} {'split':>7} {'verdicts':>9} {'reads':>7}  pattern")
     for r in results:

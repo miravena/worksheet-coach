@@ -1,0 +1,58 @@
+{
+  "id": "ws22",
+  "title": "Multiplication Facts, one slip",
+  "instructions": "Multiply.",
+  "level": "grade 3",
+  "pattern": null,
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "6 x 8 =",
+      "correct_answer": "48",
+      "written_answer": "48",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "7 x 9 =",
+      "correct_answer": "63",
+      "written_answer": "63",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "4 x 7 =",
+      "correct_answer": "28",
+      "written_answer": "27",
+      "is_correct": false,
+      "mistake": "careless slip"
+    },
+    {
+      "n": 4,
+      "prompt": "5 x 9 =",
+      "correct_answer": "45",
+      "written_answer": "45",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "8 x 8 =",
+      "correct_answer": "64",
+      "written_answer": "64",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "3 x 9 =",
+      "correct_answer": "27",
+      "written_answer": "27",
+      "is_correct": true,
+      "mistake": null
+    }
+  ],
+  "photo": "ws22_photo.jpg"
+}

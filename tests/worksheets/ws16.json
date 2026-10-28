@@ -1,0 +1,57 @@
+{
+  "id": "ws16",
+  "title": "Area and Perimeter (trades math)",
+  "instructions": "Answer with units.",
+  "level": "adult: GED",
+  "pattern": "computes perimeter when asked for area, and area when asked for perimeter",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "A floor is 8 ft by 5 ft. What is its area?",
+      "correct_answer": "40 sq ft",
+      "written_answer": "26 sq ft",
+      "is_correct": false,
+      "mistake": "area and perimeter swapped"
+    },
+    {
+      "n": 2,
+      "prompt": "A floor is 9 ft by 4 ft. What is its perimeter?",
+      "correct_answer": "26 ft",
+      "written_answer": "36 ft",
+      "is_correct": false,
+      "mistake": "area and perimeter swapped"
+    },
+    {
+      "n": 3,
+      "prompt": "A floor is 12 ft by 3 ft. What is its area?",
+      "correct_answer": "36 sq ft",
+      "written_answer": "30 sq ft",
+      "is_correct": false,
+      "mistake": "area and perimeter swapped"
+    },
+    {
+      "n": 4,
+      "prompt": "A floor is 7 ft by 7 ft. What is its perimeter?",
+      "correct_answer": "28 ft",
+      "written_answer": "28 ft",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "A floor is 6 ft by 6 ft. What is its area?",
+      "correct_answer": "36 sq ft",
+      "written_answer": "24 sq ft",
+      "is_correct": false,
+      "mistake": "area and perimeter swapped"
+    },
+    {
+      "n": 6,
+      "prompt": "A floor is 10 ft by 3 ft. What is its perimeter?",
+      "correct_answer": "26 ft",
+      "written_answer": "26 ft",
+      "is_correct": true,
+      "mistake": null
+    }
+  ]
+}

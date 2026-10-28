@@ -1,0 +1,58 @@
+{
+  "id": "ws28",
+  "title": "Multiply by One Digit (stacked)",
+  "instructions": "Multiply.",
+  "level": "grade 4",
+  "pattern": "forgets to add the carried digit",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "46 x 3 =",
+      "correct_answer": "138",
+      "written_answer": "128",
+      "is_correct": false,
+      "mistake": "forgets carried digit"
+    },
+    {
+      "n": 2,
+      "prompt": "78 x 6 =",
+      "correct_answer": "468",
+      "written_answer": "428",
+      "is_correct": false,
+      "mistake": "forgets carried digit"
+    },
+    {
+      "n": 3,
+      "prompt": "59 x 4 =",
+      "correct_answer": "236",
+      "written_answer": "206",
+      "is_correct": false,
+      "mistake": "forgets carried digit"
+    },
+    {
+      "n": 4,
+      "prompt": "34 x 2 =",
+      "correct_answer": "68",
+      "written_answer": "68",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "87 x 5 =",
+      "correct_answer": "435",
+      "written_answer": "405",
+      "is_correct": false,
+      "mistake": "forgets carried digit"
+    },
+    {
+      "n": 6,
+      "prompt": "65 x 7 =",
+      "correct_answer": "455",
+      "written_answer": "425",
+      "is_correct": false,
+      "mistake": "forgets carried digit"
+    }
+  ],
+  "photo": "ws28_photo.jpg"
+}

@@ -1,0 +1,57 @@
+{
+  "id": "ws14",
+  "title": "Simplifying Fractions",
+  "instructions": "Write each fraction in lowest terms.",
+  "level": "grade 6",
+  "pattern": "stops after cancelling one small factor instead of the greatest common factor",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "Simplify 12/18 =",
+      "correct_answer": "2/3",
+      "written_answer": "6/9",
+      "is_correct": false,
+      "mistake": "stops simplifying early"
+    },
+    {
+      "n": 2,
+      "prompt": "Simplify 10/15 =",
+      "correct_answer": "2/3",
+      "written_answer": "2/3",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "Simplify 8/12 =",
+      "correct_answer": "2/3",
+      "written_answer": "4/6",
+      "is_correct": false,
+      "mistake": "stops simplifying early"
+    },
+    {
+      "n": 4,
+      "prompt": "Simplify 15/45 =",
+      "correct_answer": "1/3",
+      "written_answer": "5/15",
+      "is_correct": false,
+      "mistake": "stops simplifying early"
+    },
+    {
+      "n": 5,
+      "prompt": "Simplify 14/21 =",
+      "correct_answer": "2/3",
+      "written_answer": "2/3",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "Simplify 24/36 =",
+      "correct_answer": "2/3",
+      "written_answer": "12/18",
+      "is_correct": false,
+      "mistake": "stops simplifying early"
+    }
+  ]
+}

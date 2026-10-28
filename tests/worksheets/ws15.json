@@ -1,0 +1,58 @@
+{
+  "id": "ws15",
+  "title": "Ratio and Proportion (ASVAB practice)",
+  "instructions": "Solve each proportion for x.",
+  "level": "adult: ASVAB",
+  "pattern": "adds the same amount to both sides instead of scaling by a factor",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "Solve: 2 : 5 = 6 : x",
+      "correct_answer": "15",
+      "written_answer": "9",
+      "is_correct": false,
+      "mistake": "additive instead of multiplicative"
+    },
+    {
+      "n": 2,
+      "prompt": "Solve: 3 : 4 = 6 : x",
+      "correct_answer": "8",
+      "written_answer": "8",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "Solve: 4 : 6 = 10 : x",
+      "correct_answer": "15",
+      "written_answer": "12",
+      "is_correct": false,
+      "mistake": "additive instead of multiplicative"
+    },
+    {
+      "n": 4,
+      "prompt": "Solve: 5 : 2 = 15 : x",
+      "correct_answer": "6",
+      "written_answer": "12",
+      "is_correct": false,
+      "mistake": "additive instead of multiplicative"
+    },
+    {
+      "n": 5,
+      "prompt": "Solve: 2 : 3 = 4 : x",
+      "correct_answer": "6",
+      "written_answer": "6",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "Solve: 3 : 5 = 12 : x",
+      "correct_answer": "20",
+      "written_answer": "14",
+      "is_correct": false,
+      "mistake": "additive instead of multiplicative"
+    }
+  ],
+  "photo": "ws15_photo.jpg"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "ws29",
+  "title": "Percent to Decimal (GED practice)",
+  "instructions": "Write each percent as a decimal.",
+  "level": "adult: GED",
+  "pattern": "moves the decimal one place for one-digit percents (8% -> 0.8)",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "35% =",
+      "correct_answer": "0.35",
+      "written_answer": "0.35",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "8% =",
+      "correct_answer": "0.08",
+      "written_answer": "0.8",
+      "is_correct": false,
+      "mistake": "percent to decimal"
+    },
+    {
+      "n": 3,
+      "prompt": "62% =",
+      "correct_answer": "0.62",
+      "written_answer": "0.62",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "5% =",
+      "correct_answer": "0.05",
+      "written_answer": "0.5",
+      "is_correct": false,
+      "mistake": "percent to decimal"
+    },
+    {
+      "n": 5,
+      "prompt": "90% =",
+      "correct_answer": "0.9",
+      "written_answer": "0.9",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "3% =",
+      "correct_answer": "0.03",
+      "written_answer": "0.3",
+      "is_correct": false,
+      "mistake": "percent to decimal"
+    }
+  ],
+  "photo": "ws29_photo.jpg"
+}

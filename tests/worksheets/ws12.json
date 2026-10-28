@@ -1,0 +1,58 @@
+{
+  "id": "ws12",
+  "title": "Metric Conversions (nursing dosage practice)",
+  "instructions": "Convert. Write the number only.",
+  "level": "adult: nursing",
+  "pattern": "divides by 1000 even when converting to a smaller unit (which needs multiplying)",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "Convert 0.5 g to mg.",
+      "correct_answer": "500",
+      "written_answer": "0.0005",
+      "is_correct": false,
+      "mistake": "moves the decimal the wrong way"
+    },
+    {
+      "n": 2,
+      "prompt": "Convert 2 L to mL.",
+      "correct_answer": "2000",
+      "written_answer": "0.002",
+      "is_correct": false,
+      "mistake": "moves the decimal the wrong way"
+    },
+    {
+      "n": 3,
+      "prompt": "Convert 250 mg to g.",
+      "correct_answer": "0.25",
+      "written_answer": "0.25",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "Convert 1.5 kg to g.",
+      "correct_answer": "1500",
+      "written_answer": "0.0015",
+      "is_correct": false,
+      "mistake": "moves the decimal the wrong way"
+    },
+    {
+      "n": 5,
+      "prompt": "Convert 750 mcg to mg.",
+      "correct_answer": "0.75",
+      "written_answer": "0.75",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "Convert 3 g to mg.",
+      "correct_answer": "3000",
+      "written_answer": "0.003",
+      "is_correct": false,
+      "mistake": "moves the decimal the wrong way"
+    }
+  ],
+  "photo": "ws12_photo.jpg"
+}

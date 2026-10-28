@@ -1,0 +1,58 @@
+{
+  "id": "ws20",
+  "title": "Three-Digit Subtraction (stacked)",
+  "instructions": "Subtract.",
+  "level": "grade 3",
+  "pattern": "subtracts the smaller digit from the larger instead of borrowing",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "503 - 278 =",
+      "correct_answer": "225",
+      "written_answer": "375",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    },
+    {
+      "n": 2,
+      "prompt": "842 - 365 =",
+      "correct_answer": "477",
+      "written_answer": "523",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    },
+    {
+      "n": 3,
+      "prompt": "716 - 248 =",
+      "correct_answer": "468",
+      "written_answer": "532",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    },
+    {
+      "n": 4,
+      "prompt": "675 - 423 =",
+      "correct_answer": "252",
+      "written_answer": "252",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "931 - 467 =",
+      "correct_answer": "464",
+      "written_answer": "536",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    },
+    {
+      "n": 6,
+      "prompt": "824 - 511 =",
+      "correct_answer": "313",
+      "written_answer": "313",
+      "is_correct": true,
+      "mistake": null
+    }
+  ],
+  "photo": "ws20_photo.jpg"
+}

@@ -1,0 +1,58 @@
+{
+  "id": "ws19",
+  "title": "Three-Digit Addition (stacked)",
+  "instructions": "Add.",
+  "level": "grade 3",
+  "pattern": null,
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "347 + 285 =",
+      "correct_answer": "632",
+      "written_answer": "632",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "418 + 256 =",
+      "correct_answer": "674",
+      "written_answer": "674",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "529 + 143 =",
+      "correct_answer": "672",
+      "written_answer": "672",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "275 + 318 =",
+      "correct_answer": "593",
+      "written_answer": "593",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "604 + 127 =",
+      "correct_answer": "731",
+      "written_answer": "731",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "382 + 459 =",
+      "correct_answer": "841",
+      "written_answer": "841",
+      "is_correct": true,
+      "mistake": null
+    }
+  ],
+  "photo": "ws19_photo.jpg"
+}

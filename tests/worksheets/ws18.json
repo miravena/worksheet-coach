@@ -1,0 +1,58 @@
+{
+  "id": "ws18",
+  "title": "Place Value",
+  "instructions": "Write the value of the digit named.",
+  "level": "grade 4",
+  "pattern": "gives the digit itself instead of its place value",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "What is the value of the 7 in 4732?",
+      "correct_answer": "700",
+      "written_answer": "7",
+      "is_correct": false,
+      "mistake": "digit instead of value"
+    },
+    {
+      "n": 2,
+      "prompt": "What is the value of the 8 in 5081?",
+      "correct_answer": "80",
+      "written_answer": "8",
+      "is_correct": false,
+      "mistake": "digit instead of value"
+    },
+    {
+      "n": 3,
+      "prompt": "What is the value of the 5 in 3905?",
+      "correct_answer": "5",
+      "written_answer": "5",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "What is the value of the 4 in 81463?",
+      "correct_answer": "400",
+      "written_answer": "4",
+      "is_correct": false,
+      "mistake": "digit instead of value"
+    },
+    {
+      "n": 5,
+      "prompt": "What is the value of the 8 in 1278?",
+      "correct_answer": "8",
+      "written_answer": "8",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "What is the value of the 9 in 9027?",
+      "correct_answer": "9000",
+      "written_answer": "9",
+      "is_correct": false,
+      "mistake": "digit instead of value"
+    }
+  ],
+  "photo": "ws18_photo.jpg"
+}

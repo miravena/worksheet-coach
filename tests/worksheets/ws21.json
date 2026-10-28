@@ -1,0 +1,74 @@
+{
+  "id": "ws21",
+  "title": "Mixed Facts (two columns)",
+  "instructions": "Multiply or divide.",
+  "level": "grade 4",
+  "pattern": null,
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "9 x 6 =",
+      "correct_answer": "54",
+      "written_answer": "54",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "56 ÷ 7 =",
+      "correct_answer": "8",
+      "written_answer": "8",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "8 x 8 =",
+      "correct_answer": "64",
+      "written_answer": "64",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "45 ÷ 9 =",
+      "correct_answer": "5",
+      "written_answer": "5",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "7 x 6 =",
+      "correct_answer": "42",
+      "written_answer": "42",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "72 ÷ 8 =",
+      "correct_answer": "9",
+      "written_answer": "9",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 7,
+      "prompt": "12 x 4 =",
+      "correct_answer": "48",
+      "written_answer": "48",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 8,
+      "prompt": "81 ÷ 9 =",
+      "correct_answer": "9",
+      "written_answer": "9",
+      "is_correct": true,
+      "mistake": null
+    }
+  ],
+  "photo": "ws21_photo.jpg"
+}
