@@ -1,0 +1,57 @@
+{
+  "id": "ws08",
+  "title": "Solving Linear Equations",
+  "instructions": "Solve for x.",
+  "level": "adult: algebra",
+  "pattern": "keeps the sign of a term when moving it across the equals sign",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "x + 7 = 12",
+      "correct_answer": "5",
+      "written_answer": "5",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "x - 4 = 9",
+      "correct_answer": "13",
+      "written_answer": "5",
+      "is_correct": false,
+      "mistake": "sign error moving a term"
+    },
+    {
+      "n": 3,
+      "prompt": "3x + 5 = 20",
+      "correct_answer": "5",
+      "written_answer": "8.33",
+      "is_correct": false,
+      "mistake": "sign error moving a term"
+    },
+    {
+      "n": 4,
+      "prompt": "2x - 6 = 10",
+      "correct_answer": "8",
+      "written_answer": "2",
+      "is_correct": false,
+      "mistake": "sign error moving a term"
+    },
+    {
+      "n": 5,
+      "prompt": "x + 11 = 4",
+      "correct_answer": "-7",
+      "written_answer": "-7",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "5x - 15 = 0",
+      "correct_answer": "3",
+      "written_answer": "-3",
+      "is_correct": false,
+      "mistake": "sign error moving a term"
+    }
+  ]
+}

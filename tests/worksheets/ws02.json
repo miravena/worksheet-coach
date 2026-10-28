@@ -1,0 +1,57 @@
+{
+  "id": "ws02",
+  "title": "Two-Digit Subtraction",
+  "instructions": "Subtract.",
+  "level": "grade 2",
+  "pattern": "subtracts the smaller digit from the larger instead of borrowing",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "52 - 37 =",
+      "correct_answer": "15",
+      "written_answer": "25",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    },
+    {
+      "n": 2,
+      "prompt": "86 - 41 =",
+      "correct_answer": "45",
+      "written_answer": "45",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "73 - 28 =",
+      "correct_answer": "45",
+      "written_answer": "55",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    },
+    {
+      "n": 4,
+      "prompt": "64 - 19 =",
+      "correct_answer": "45",
+      "written_answer": "55",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    },
+    {
+      "n": 5,
+      "prompt": "95 - 53 =",
+      "correct_answer": "42",
+      "written_answer": "42",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "81 - 46 =",
+      "correct_answer": "35",
+      "written_answer": "45",
+      "is_correct": false,
+      "mistake": "no borrowing"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "ws10",
+  "title": "Percent Change (GED practice)",
+  "instructions": "Answer each question.",
+  "level": "adult: GED",
+  "pattern": "divides the change by the new value instead of the original",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "A $40 shirt is 25% off. Sale price?",
+      "correct_answer": "$30",
+      "written_answer": "$30",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "Rent goes from $800 to $880. Percent increase?",
+      "correct_answer": "10%",
+      "written_answer": "9.1%",
+      "is_correct": false,
+      "mistake": "wrong base for percent change"
+    },
+    {
+      "n": 3,
+      "prompt": "A price drops from $50 to $40. Percent decrease?",
+      "correct_answer": "20%",
+      "written_answer": "25%",
+      "is_correct": false,
+      "mistake": "wrong base for percent change"
+    },
+    {
+      "n": 4,
+      "prompt": "What is 15% of $60?",
+      "correct_answer": "$9",
+      "written_answer": "$9",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "Pay rises from $20/h to $25/h. Percent increase?",
+      "correct_answer": "25%",
+      "written_answer": "20%",
+      "is_correct": false,
+      "mistake": "wrong base for percent change"
+    },
+    {
+      "n": 6,
+      "prompt": "Sales fall from 200 to 150. Percent decrease?",
+      "correct_answer": "25%",
+      "written_answer": "33.3%",
+      "is_correct": false,
+      "mistake": "wrong base for percent change"
+    }
+  ]
+}

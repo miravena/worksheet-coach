@@ -1,0 +1,57 @@
+{
+  "id": "ws05",
+  "title": "Adding Fractions",
+  "instructions": "Add. Simplify if you can.",
+  "level": "grade 5",
+  "pattern": "adds the denominators when they differ",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "1/2 + 1/3 =",
+      "correct_answer": "5/6",
+      "written_answer": "2/5",
+      "is_correct": false,
+      "mistake": "adds denominators"
+    },
+    {
+      "n": 2,
+      "prompt": "1/4 + 1/2 =",
+      "correct_answer": "3/4",
+      "written_answer": "2/6",
+      "is_correct": false,
+      "mistake": "adds denominators"
+    },
+    {
+      "n": 3,
+      "prompt": "2/5 + 1/3 =",
+      "correct_answer": "11/15",
+      "written_answer": "3/8",
+      "is_correct": false,
+      "mistake": "adds denominators"
+    },
+    {
+      "n": 4,
+      "prompt": "1/6 + 1/2 =",
+      "correct_answer": "2/3",
+      "written_answer": "2/8",
+      "is_correct": false,
+      "mistake": "adds denominators"
+    },
+    {
+      "n": 5,
+      "prompt": "3/8 + 1/8 =",
+      "correct_answer": "1/2",
+      "written_answer": "1/2",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "1/3 + 1/4 =",
+      "correct_answer": "7/12",
+      "written_answer": "2/7",
+      "is_correct": false,
+      "mistake": "adds denominators"
+    }
+  ]
+}

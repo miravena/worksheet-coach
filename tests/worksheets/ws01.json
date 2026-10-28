@@ -1,0 +1,57 @@
+{
+  "id": "ws01",
+  "title": "Two-Digit Addition",
+  "instructions": "Add.",
+  "level": "grade 2",
+  "pattern": "forgets to carry",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "47 + 38 =",
+      "correct_answer": "85",
+      "written_answer": "75",
+      "is_correct": false,
+      "mistake": "forgets to carry"
+    },
+    {
+      "n": 2,
+      "prompt": "25 + 13 =",
+      "correct_answer": "38",
+      "written_answer": "38",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "68 + 27 =",
+      "correct_answer": "95",
+      "written_answer": "85",
+      "is_correct": false,
+      "mistake": "forgets to carry"
+    },
+    {
+      "n": 4,
+      "prompt": "34 + 52 =",
+      "correct_answer": "86",
+      "written_answer": "86",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "59 + 36 =",
+      "correct_answer": "95",
+      "written_answer": "85",
+      "is_correct": false,
+      "mistake": "forgets to carry"
+    },
+    {
+      "n": 6,
+      "prompt": "71 + 18 =",
+      "correct_answer": "89",
+      "written_answer": "89",
+      "is_correct": true,
+      "mistake": null
+    }
+  ]
+}

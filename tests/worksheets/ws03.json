@@ -1,0 +1,57 @@
+{
+  "id": "ws03",
+  "title": "Multiplication Facts",
+  "instructions": "Multiply.",
+  "level": "grade 3",
+  "pattern": null,
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "6 x 7 =",
+      "correct_answer": "42",
+      "written_answer": "42",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "8 x 4 =",
+      "correct_answer": "32",
+      "written_answer": "32",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "9 x 3 =",
+      "correct_answer": "27",
+      "written_answer": "27",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "7 x 7 =",
+      "correct_answer": "49",
+      "written_answer": "49",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "5 x 8 =",
+      "correct_answer": "40",
+      "written_answer": "40",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "4 x 9 =",
+      "correct_answer": "36",
+      "written_answer": "36",
+      "is_correct": true,
+      "mistake": null
+    }
+  ]
+}

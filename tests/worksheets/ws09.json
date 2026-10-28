@@ -1,0 +1,57 @@
+{
+  "id": "ws09",
+  "title": "Distributing a Negative",
+  "instructions": "Expand.",
+  "level": "adult: algebra",
+  "pattern": "distributes a negative to the first term only",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "-(x - 3)",
+      "correct_answer": "-x + 3",
+      "written_answer": "-x - 3",
+      "is_correct": false,
+      "mistake": "negative not distributed"
+    },
+    {
+      "n": 2,
+      "prompt": "2(x + 4)",
+      "correct_answer": "2x + 8",
+      "written_answer": "2x + 8",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 3,
+      "prompt": "-3(2x - 1)",
+      "correct_answer": "-6x + 3",
+      "written_answer": "-6x - 1",
+      "is_correct": false,
+      "mistake": "negative not distributed"
+    },
+    {
+      "n": 4,
+      "prompt": "-(4 - x)",
+      "correct_answer": "-4 + x",
+      "written_answer": "-4 - x",
+      "is_correct": false,
+      "mistake": "negative not distributed"
+    },
+    {
+      "n": 5,
+      "prompt": "5(x - 2)",
+      "correct_answer": "5x - 10",
+      "written_answer": "5x - 10",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 6,
+      "prompt": "-2(x + 5)",
+      "correct_answer": "-2x - 10",
+      "written_answer": "-2x + 5",
+      "is_correct": false,
+      "mistake": "negative not distributed"
+    }
+  ]
+}

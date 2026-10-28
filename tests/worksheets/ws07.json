@@ -1,0 +1,57 @@
+{
+  "id": "ws07",
+  "title": "Division with Remainders",
+  "instructions": "Divide. Write the remainder.",
+  "level": "grade 4",
+  "pattern": "leaves a remainder bigger than the divisor",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "47 ÷ 5 =",
+      "correct_answer": "9 R2",
+      "written_answer": "9 R2",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 2,
+      "prompt": "38 ÷ 4 =",
+      "correct_answer": "9 R2",
+      "written_answer": "8 R6",
+      "is_correct": false,
+      "mistake": "remainder too big"
+    },
+    {
+      "n": 3,
+      "prompt": "59 ÷ 6 =",
+      "correct_answer": "9 R5",
+      "written_answer": "8 R11",
+      "is_correct": false,
+      "mistake": "remainder too big"
+    },
+    {
+      "n": 4,
+      "prompt": "26 ÷ 3 =",
+      "correct_answer": "8 R2",
+      "written_answer": "8 R2",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 5,
+      "prompt": "74 ÷ 8 =",
+      "correct_answer": "9 R2",
+      "written_answer": "8 R10",
+      "is_correct": false,
+      "mistake": "remainder too big"
+    },
+    {
+      "n": 6,
+      "prompt": "33 ÷ 7 =",
+      "correct_answer": "4 R5",
+      "written_answer": "4 R5",
+      "is_correct": true,
+      "mistake": null
+    }
+  ]
+}

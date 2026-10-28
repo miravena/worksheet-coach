@@ -1,0 +1,57 @@
+{
+  "id": "ws06",
+  "title": "Adding Decimals",
+  "instructions": "Add.",
+  "level": "grade 5",
+  "pattern": "lines up the last digits instead of the decimal points",
+  "problems": [
+    {
+      "n": 1,
+      "prompt": "3.5 + 1.25 =",
+      "correct_answer": "4.75",
+      "written_answer": "1.60",
+      "is_correct": false,
+      "mistake": "decimal alignment"
+    },
+    {
+      "n": 2,
+      "prompt": "2.4 + 0.36 =",
+      "correct_answer": "2.76",
+      "written_answer": "0.60",
+      "is_correct": false,
+      "mistake": "decimal alignment"
+    },
+    {
+      "n": 3,
+      "prompt": "6.1 + 2.3 =",
+      "correct_answer": "8.4",
+      "written_answer": "8.4",
+      "is_correct": true,
+      "mistake": null
+    },
+    {
+      "n": 4,
+      "prompt": "0.75 + 1.5 =",
+      "correct_answer": "2.25",
+      "written_answer": "0.90",
+      "is_correct": false,
+      "mistake": "decimal alignment"
+    },
+    {
+      "n": 5,
+      "prompt": "4.08 + 1.2 =",
+      "correct_answer": "5.28",
+      "written_answer": "4.20",
+      "is_correct": false,
+      "mistake": "decimal alignment"
+    },
+    {
+      "n": 6,
+      "prompt": "7.5 + 0.5 =",
+      "correct_answer": "8.0",
+      "written_answer": "8.0",
+      "is_correct": true,
+      "mistake": null
+    }
+  ]
+}
