@@ -35,7 +35,12 @@ channels and support bots you can @ for rules questions.
   its code into this repo.
 - **Credits:** each participant claims their own $150 through the form linked in the event
   announcements, by Nov 4, 9:00 PM ET. Credits arrive in batches (check the Billing page). A credit
-  card must be on the account to make calls; set a Spend Limit at $150 to avoid charges.
+  card must pass Meta's check (a temporary hold of about $20) or the account shows "Account
+  restricted" and the credits cannot be used.
+- **Billing is pay-as-you-go with no hard cap.** Meta's "Spend Limit" only sends one email alert
+  (https://dev.meta.ai/help/billing/spend-limit-alert); usage past the credits is charged to the
+  card. So the app enforces its own hard spend cap, and the public demo is guarded against abuse.
+- API keys never expire and the last key cannot be deleted; rotate by creating a new key first.
 
 ## Build fresh: no code from before the hackathon
 
