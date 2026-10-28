@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Worksheet Coach</title>
+  <meta name="description" content="Upload a photo of a completed worksheet and watch an AI agent find the pattern behind the mistakes.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Worksheet Coach</h1>
+      <p class="tag">Photograph a completed worksheet. Watch the agent check every problem, find the pattern behind the mistakes, and write practice that targets it.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="upload" class="card">
+      <h2>1. Add a worksheet</h2>
+      <form id="upload-form">
+        <label class="drop" for="file">
+          <span class="drop-title">Take or choose a photo</span>
+          <span class="drop-sub">JPEG or PNG, up to 8 MB. Lay the page flat with good light.</span>
+          <input id="file" name="file" type="file" accept="image/*" capture="environment">
+        </label>
+        <p id="file-name" class="muted" hidden></p>
+        <button id="go" class="primary" type="submit" disabled>Check this worksheet</button>
+      </form>
+      <div class="samples">
+        <p class="muted">No worksheet handy? Try a sample (generated, not a real learner's work):</p>
+        <div id="sample-buttons" class="chips"></div>
+      </div>
+      <p id="notice" class="notice" role="alert" hidden></p>
+    </section>
+
+    <section id="live" class="card" hidden>
+      <h2 id="live-title">2. The agent at work</h2>
+      <div class="live-grid">
+        <div class="stage-col">
+          <div id="stage" class="stage">
+            <img id="photo" alt="The uploaded worksheet">
+            <svg id="overlay" aria-hidden="true"></svg>
+          </div>
+          <ul class="legend" aria-label="Legend">
+            <li><i class="sw sw-num"></i>numbers found</li>
+            <li><i class="sw sw-prob"></i>problems</li>
+            <li><i class="sw sw-ok"></i>correct</li>
+            <li><i class="sw sw-bad"></i>needs a look</li>
+          </ul>
+        </div>
+        <div class="trace-col">
+          <h3>Step trace <span id="spinner" class="spinner" aria-hidden="true"></span></h3>
+          <ol id="trace" class="trace" aria-live="polite"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" hidden>
+      <div class="card" id="score-card">
+        <h2>3. What the agent found</h2>
+        <div class="score-row">
+          <div class="score"><span id="score-num">0/0</span><span class="muted">correct</span></div>
+          <div class="score-meta">
+            <p id="sheet-title" class="sheet-title"></p>
+            <p id="run-meta" class="muted"></p>
+          </div>
+        </div>
+        <div id="pattern" class="pattern" hidden>
+          <h3>Pattern behind the mistakes</h3>
+          <p id="pattern-name" class="pattern-name"></p>
+          <p id="pattern-expl"></p>
+        </div>
+        <div id="summary-wrap" hidden>
+          <h3>30-second summary</h3>
+          <p id="summary" class="summary"></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Evidence, problem by problem</h3>
+        <p class="muted">Check what the agent read against the page before acting on it.</p>
+        <div id="evidence" class="evidence"></div>
+      </div>
+
+      <div class="card" id="practice-card" hidden>
+        <h3>Practice for this pattern</h3>
+        <span id="checked" class="badge-ok" hidden>answer key checked</span>
+        <ol id="practice" class="practice"></ol>
+        <a id="pdf" class="primary link" hidden download>Download as PDF</a>
+      </div>
+
+      <div class="again"><button id="again" class="secondary" type="button">Check another worksheet</button></div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <div class="wrap">
+      <p>For adults (18+). Built with Meta Muse Spark, SAM 3.1 and Muse Image.</p>
+      <p class="muted">AI can misread handwriting; check the evidence before acting on it.</p>
+    </div>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>
