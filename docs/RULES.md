@@ -11,9 +11,12 @@ The organizers may change the terms; recheck that page before submitting.
 | Oct 26, 12:00 PM | Hackathon starts (kickoff livestream) |
 | Oct 27 to Nov 4 | Workshops from Meta and partners, office hours on Discord |
 | **Nov 4, 9:00 PM** | **Submission deadline** |
-| Nov 4 to Nov 8 | Judging |
-| Nov 9 | Live finals, winners announced |
-| ~Nov 10 | Bonus prizes (community vote, most viral, and others) announced |
+| Nov 5 to Nov 8 | First round of judging |
+| Nov 9 | Closing ceremony: judges watch the top 5 videos per track live and rank them |
+| Nov 16 | Community vote winner announced in Discord |
+
+Weekday mornings (ET): Meta office hours in the Discord office-hours channel. Discord also has partner
+channels and support bots you can @ for rules questions.
 
 ## Event links (all but the livestream need the Cerebral Valley login)
 
@@ -53,7 +56,27 @@ the kickoff (Oct 26, 12:00 PM ET). The Official Rules also require it to be our 
   (requires login; the form fields are not visible publicly, so check them early).
 - One track per project. We are in the **indie developer** track (individuals or teams of up to 4;
   a team's Representative submits and names every member).
-- Judges look at a **working demo** and a **demo video**.
+- What to submit (kickoff, Oct 26): the **3-minute demo video** (a major part of judging; produce it
+  well, with a good voiceover: the problem, what we built, the product working) and the **public
+  GitHub repo** (judges review it).
+- **Bonus prizes are opt-in on the form**: call out each bonus prize we enter. Most viral needs a
+  link to our post on X.
+- Prior work must be declared on the form. We have none: everything is built fresh (below).
+
+### How judging works (kickoff)
+
+1. **Pass/fail:** does the project fit a theme and use Meta AI products? Say plainly which Meta
+   model does what.
+2. **Score 0 to 10** by Meta judges against the rubric below.
+3. **Finals (Nov 9):** the top 5 per track are shown on the live stream; judges watch each 3-minute
+   video, give feedback, and rank first to fifth.
+
+### Ideas the organizers said to avoid
+
+"Simple chat wrappers, simple RAG apps, image analyzers, or medical advice generators." Pitch and
+build worksheet-coach as a multi-step agent (segment, grade, find the pattern, generate practice,
+check the answer key), never as a photo analyzer. The pattern and the generated practice sheet are
+required, not polish.
 
 ## Judging (indie and startup)
 
@@ -67,7 +90,9 @@ the kickoff (Oct 26, 12:00 PM ET). The Official Rules also require it to be our 
 ## Prizes
 
 - Indie: $150K, $100K, $75K, $50K, $25K. Startup: $250K, $150K, $75K, $50K, $25K.
-- Bonus awards up to $50K total. They do not reduce track prizes.
+- Bonus awards up to $50K total. They do not reduce track prizes: most viral (post on X), best build
+  on Meta open weights (Muse Glimmer or Muse Spark Open), community vote (project gallery), best
+  agentic use case ($5K), best creative build ($5K).
 - Payment in USD via Cerebral Valley (Tremendous). Winners need a signed waiver and Official Rules
   plus a W-9 (US) or W-8BEN, and pay their own taxes and fees.
 
@@ -77,7 +102,11 @@ the kickoff (Oct 26, 12:00 PM ET). The Official Rules also require it to be our 
   Meta Model API, plus Meta open-weights models. Muse Code is offered as a coding agent.
 - $150 Meta Model API credits for accepted participants, valid for the 10-day window. Read the
   Credit Terms before claiming.
-- Partner credits for select participants: Baseten $100 + 2M TPM, Modal $100, Fireworks $25.
+- Partner credits for select participants: Baseten $100 + 2M TPM, Modal $100 (first 1,000 teams),
+  Fireworks $25. Partners choose who gets them. All credit forms are on the event details page (the
+  info icon on the event); credits go out in batches, and Baseten emails selected builders.
+- Baseten, Modal and Fireworks are Meta's named partners for hosting Muse Spark Open and Muse
+  Glimmer.
 
 ## Meta Model API terms (read 2026-10-27)
 
