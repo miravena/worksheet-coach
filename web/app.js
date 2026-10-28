@@ -287,6 +287,12 @@
       if (it && it.answer != null && it.answer !== "") li.appendChild(el("div", { "class": "ans" }, "Answer: " + it.answer));
       ol.appendChild(li);
     });
+    var fx = $("keys-fixed");
+    fx.hidden = !pr.keys_fixed;
+    if (pr.keys_fixed) fx.textContent = "The agent caught " + pr.keys_fixed + " wrong answer key(s) in its own draft and fixed them.";
+    var pv = $("sheet-preview");
+    pv.hidden = !pr.png_url;
+    if (pr.png_url) pv.src = pdfHref(pr.png_url);
     var a = $("pdf");
     a.hidden = !pr.pdf_url;
     if (pr.pdf_url) a.href = pdfHref(pr.pdf_url);

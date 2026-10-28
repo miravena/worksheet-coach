@@ -110,3 +110,7 @@ button, .link { font: inherit; border-radius: 10px; padding: 12px 18px; border: 
   .ev .why { grid-column: 1 / -1; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+.sheet-preview { display: block; width: 100%; max-width: 520px; margin: 16px auto; border: 1px solid #ddd;
+  box-shadow: 0 2px 10px rgba(0,0,0,.08); background: #fff; }
+.muted { color: #666; font-size: .92em; }
