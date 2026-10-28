@@ -23,6 +23,8 @@ import requests
 
 BASE_URL = os.environ.get("META_BASE_URL", "https://api.meta.ai/v1")
 SPARK = "muse-spark-1.3"
+SPARK_OPEN = "meta-models/muse-spark-open"  # Meta's open-weights Muse Spark, hosted by Baseten
+BASETEN_URL = os.environ.get("BASETEN_BASE_URL", "https://inference.baseten.co/v1")
 SAM = "sam-3.1"
 IMAGE = "muse-image-1.0"
 
@@ -135,6 +137,11 @@ def _key() -> str:
     return key
 
 
+def open_weights_available() -> bool:
+    """True when a Baseten key is configured, so Muse Spark Open can be called."""
+    return bool(os.environ.get("BASETEN_API_KEY"))
+
+
 def _retryable(status: int, body: str) -> bool:
     return status in (408, 409, 429, 500, 502, 503, 504) or (
         status == 404 and "model_not_found" in body
@@ -142,15 +149,16 @@ def _retryable(status: int, body: str) -> bool:
 
 
 def post(path: str, payload: dict, *, stream: bool = False, attempts: int = 14,
-         timeout: float = 180.0) -> tuple[requests.Response, int]:
-    headers = {"Authorization": f"Bearer {_key()}", "Content-Type": "application/json"}
+         timeout: float = 180.0, base_url: str | None = None,
+         key: str | None = None) -> tuple[requests.Response, int]:
+    headers = {"Authorization": f"Bearer {key or _key()}", "Content-Type": "application/json"}
     if stream:
         headers["Accept"] = "text/event-stream"
     delay = 1.0
     last = ""
     for i in range(1, attempts + 1):
         try:
-            r = requests.post(f"{BASE_URL}{path}", headers=headers, json=payload,
+            r = requests.post(f"{base_url or BASE_URL}{path}", headers=headers, json=payload,
                               stream=stream, timeout=timeout)
         except requests.RequestException as e:
             last = f"network: {e}"
@@ -211,6 +219,65 @@ def chat(messages: list[dict], *, schema: dict | None = None, schema_name: str =
     if not content:
         raise MetaAPIError("empty structured reply (raise max_tokens or lower effort)")
     return json.loads(content), stats
+
+
+# Baseten bills Muse Spark Open from its own credits, not Meta's, so it has its own ledger.
+# Prices are estimates for the cap only (override with BASETEN_PRICE_IN / BASETEN_PRICE_OUT).
+OPEN_PRICE_IN_PER_M = float(os.environ.get("BASETEN_PRICE_IN", "0.60"))
+OPEN_PRICE_OUT_PER_M = float(os.environ.get("BASETEN_PRICE_OUT", "2.40"))
+OPEN_LEDGER = Ledger(ROOT / "out" / "spend-baseten.json", float(os.environ.get("BASETEN_CAP_USD", "60")))
+
+
+def _json_from_text(text: str):
+    t = text.strip()
+    if t.startswith("```"):
+        t = t.strip("`")
+        t = t[t.find("{"):]
+    start, end = t.find("{"), t.rfind("}")
+    if start < 0 or end < 0:
+        raise MetaAPIError(f"no JSON in reply: {text[:120]!r}")
+    return json.loads(t[start:end + 1])
+
+
+def open_chat(messages: list[dict], *, schema: dict | None = None, schema_name: str = "out",
+              effort: str = "low", max_tokens: int = 8000) -> tuple[object, CallStats]:
+    """Muse Spark Open (open weights) on Baseten, OpenAI-compatible Chat Completions.
+
+    Asks for structured output; if the provider rejects the schema, asks for plain JSON instead."""
+    key = os.environ.get("BASETEN_API_KEY")
+    if not key:
+        raise MetaAPIError("BASETEN_API_KEY is not set (put it in .env)")
+    OPEN_LEDGER.check(0.01)
+    payload: dict = {"model": SPARK_OPEN, "messages": messages, "max_tokens": max_tokens,
+                     "reasoning_effort": effort}
+    if schema is not None:
+        payload["response_format"] = {
+            "type": "json_schema",
+            "json_schema": {"name": schema_name, "schema": schema, "strict": True},
+        }
+    t0 = time.time()
+    try:
+        r, n = post("/chat/completions", payload, base_url=BASETEN_URL, key=key, attempts=6)
+    except MetaAPIError as e:
+        if schema is None or "HTTP 4" not in str(e):
+            raise
+        payload.pop("response_format", None)
+        payload.pop("reasoning_effort", None)
+        payload["messages"] = messages + [{"role": "user", "content":
+                                           "Reply with only a JSON object matching this schema: "
+                                           + json.dumps(schema)}]
+        r, n = post("/chat/completions", payload, base_url=BASETEN_URL, key=key, attempts=6)
+    data = r.json()
+    usage = data.get("usage") or {}
+    tin = int(usage.get("prompt_tokens") or 0)
+    tout = int(usage.get("completion_tokens") or 0)
+    usd = (tin * OPEN_PRICE_IN_PER_M + tout * OPEN_PRICE_OUT_PER_M) / 1e6
+    OPEN_LEDGER.charge(usd)
+    stats = CallStats(SPARK_OPEN, time.time() - t0, usd, n, tin, tout)
+    content = (data["choices"][0]["message"].get("content") or "").strip()
+    if schema is None:
+        return content, stats
+    return _json_from_text(content), stats
 
 
 def user_msg(text: str, *images) -> dict:

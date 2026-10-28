@@ -153,6 +153,7 @@
   // ---- live trace + overlay
   function badgeFor(model) {
     var cls = "badge";
+    if (/spark-open/.test(model)) return el("span", { "class": "badge open" }, "muse-spark-open");
     if (/spark/.test(model)) cls += " spark";
     else if (/sam/.test(model)) cls += " sam";
     else if (/image/.test(model)) cls += " img";

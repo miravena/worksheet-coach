@@ -80,14 +80,24 @@ JUDGE_SCHEMA = {
 }
 
 
-def solve(prompt: str, instructions: str) -> str:
-    out, _ = meta.chat(
-        [{"role": "user", "content":
-          f'Solve this worksheet problem. Instructions: "{instructions}". Problem: {prompt}\n'
-          "Work it out carefully, then give only the final answer in the form a worksheet answer "
-          'key would use (e.g. "9 R2", "5/6", "x = 4", "$30").'}],
-        schema=SOLVE_SCHEMA, schema_name="solve", effort="low", max_tokens=12000)
-    return out["answer"]
+def solve(prompt: str, instructions: str) -> tuple[str, str]:
+    """Solve a problem without seeing the draft key. Returns (answer, model).
+
+    When a Baseten key is set, the check runs on Muse Spark Open, a different model from the one
+    that wrote the key, so its agreement is a real second opinion. Otherwise Muse Spark 1.3."""
+    msgs = [{"role": "user", "content":
+             f'Solve this worksheet problem. Instructions: "{instructions}". Problem: {prompt}\n'
+             "Work it out carefully, then give only the final answer in the form a worksheet answer "
+             'key would use (e.g. "9 R2", "5/6", "x = 4", "$30").'}]
+    if meta.open_weights_available():
+        try:
+            out, _ = meta.open_chat(msgs, schema=SOLVE_SCHEMA, schema_name="solve", effort="low",
+                                    max_tokens=12000)
+            return str(out["answer"]), meta.SPARK_OPEN
+        except Exception:
+            pass  # Baseten down or out of credit: fall back to the hosted model
+    out, _ = meta.chat(msgs, schema=SOLVE_SCHEMA, schema_name="solve", effort="low", max_tokens=12000)
+    return out["answer"], meta.SPARK
 
 
 def judge(prompt: str, instructions: str, a: str, b: str) -> dict:
@@ -103,14 +113,15 @@ def judge(prompt: str, instructions: str, a: str, b: str) -> dict:
 def _check_one(p: dict, instructions: str) -> dict:
     """Solve independently, compare, and settle disagreements. Mutates and returns p."""
     try:
-        independent = solve(p["prompt"], instructions)
+        independent, solver = solve(p["prompt"], instructions)
     except Exception as e:
         p.update(checked=False, check_note=f"check failed: {str(e)[:120]}")
         return p
     p["independent_answer"] = independent
+    p["solver"] = solver
     agree = answers.same(p["answer"], independent)
     if agree:
-        p.update(checked=True, check_note="independent solve agrees")
+        p.update(checked=True, check_note=f"independent solve by {solver} agrees")
         return p
     try:
         j = judge(p["prompt"], instructions, p["answer"], independent)
@@ -178,8 +189,12 @@ def make_practice(header: dict, verdicts, pattern: dict, *, n: int = 5, on_step=
     if len(final) < n:  # still short: fill with unchecked ones, clearly marked
         final += [p for p in checked if not p.get("checked")][: n - len(final)]
     fixed = sum(1 for p in checked if p.get("fixed_from"))
-    step(meta.SPARK, f"answer key checked: {sum(1 for p in final if p.get('checked'))}/{len(final)} "
-                     f"verified independently" + (f", {fixed} wrong key(s) caught and fixed" if fixed else ""),
+    solvers = {p.get("solver") for p in final if p.get("solver")}
+    checker = meta.SPARK_OPEN if meta.SPARK_OPEN in solvers else meta.SPARK
+    step(checker, f"answer key checked: {sum(1 for p in final if p.get('checked'))}/{len(final)} "
+                  f"verified by an independent solve"
+                  + (" on Muse Spark Open (open weights, Baseten)" if checker == meta.SPARK_OPEN else "")
+                  + (f", {fixed} wrong key(s) caught and fixed" if fixed else ""),
          kind="practice", practice={"problems": final})
     return {
         "title": draft.get("title") or f"Practice: {header.get('subject', '')}",

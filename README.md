@@ -29,7 +29,7 @@ ship wrong answer keys.
 | 3. Grade each crop | **Muse Spark 1.3** | One call per problem, structured output: what it read, what was written, the correct answer, verdict, the mistake and how the wrong answer was produced. Calls the API dropped are retried |
 | 4. Find the pattern | **Muse Spark 1.3** | Looks across all problems, right and wrong, and must show the wrong method reproduces each written answer |
 | 5. Write practice | **Muse Spark 1.3** | Drafts 7 problems in the same format. Each records the answer the habit would give, so the habit cannot hide |
-| 6. Check its own answer key | **Muse Spark 1.3** | Every answer is solved again in a separate call that never sees the draft. Code compares them (fractions, remainders, money, `x = 5`, algebra via SymPy). Disagreements go to a judge call; wrong keys are corrected or replaced, up to two rounds |
+| 6. Check its own answer key | **Muse Spark Open** (open weights, on Baseten) | Every answer is solved again by a *different* model, Meta's open-weights Muse Spark Open, which never sees the draft, so agreement is a real second opinion (falls back to a separate Muse Spark 1.3 call when no Baseten key is set). Code compares them (fractions, remainders, money, `x = 5`, algebra via SymPy). Disagreements go to a judge call; wrong keys are corrected or replaced, up to two rounds |
 | 7. Printable sheet | **Muse Image 1.0** | Draws the illustration for the top of the sheet from an idea Spark wrote. Problems and answers are typeset in code, so no digit is ever misdrawn. Page 2 is the answer key for the adult |
 | 8. Summary | **Muse Spark 1.3** | 30 seconds of reading for the adult: score, the habit, one thing to try together |
 
@@ -85,6 +85,8 @@ Settings (environment or `.env`):
 | Variable | Default | What it does |
 |---|---|---|
 | `SPEND_CAP_USD` | 60 | Hard cap on estimated spend. Meta's spend limit only sends an email, so the app refuses new calls past this |
+| `BASETEN_API_KEY` | unset | Turns on Muse Spark Open for the answer-key check |
+| `BASETEN_CAP_USD` | 60 | Separate hard cap for Baseten spend (estimated) |
 | `RUNS_PER_IP_PER_HOUR` | 5 | Abuse guard for a public demo |
 | `MAX_CONCURRENT_RUNS` | 2 | Runs at once |
 | `RUN_COST_ESTIMATE` | 0.30 | Spend assumed per run when checking the cap |
@@ -113,7 +115,9 @@ Command line: `python3 tests/accuracy.py ws01 ws05` scores some sheets;
 ## Meta models used
 
 `muse-spark-1.3` (Standard mode, so our content is not used for training), `sam-3.1`,
-`muse-image-1.0`, all through the Meta Model API. No Contributor-mode models.
+`muse-image-1.0`, all through the Meta Model API. No Contributor-mode models. Plus Meta's
+open-weights `meta-models/muse-spark-open`, served by Baseten's OpenAI-compatible Model API
+(`BASETEN_API_KEY` in `.env`), for the independent answer-key check.
 
 ## Dependencies and licenses
 
