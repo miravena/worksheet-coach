@@ -24,9 +24,12 @@ The organizers may change the terms; recheck that page before submitting.
 | Livestream (kickoff, workshops) | https://cerebralvalley.ai/e/meta-ai-developer-hackathon/live |
 | Submit | https://cerebralvalley.ai/e/meta-ai-developer-hackathon/hackathon/submit |
 
-- The kickoff (Oct 26, 12:00 PM ET) was recorded. The replay is an embed-only Vimeo video that
-  plays only on the Cerebral Valley site, so watch it there while logged in.
-- Next scheduled stream: Oct 27, 12:00 PM ET.
+- Recordings of the kickoff (Oct 26) and of the workshop "Agents 101: Build a Multimodal AI Agent"
+  Part 1 (Oct 27) are shared as links in the hackathon Discord announcements. Part 2 is Oct 28,
+  12:00 PM ET, on the livestream page.
+- The workshop needs Muse Code signed in and a working Model API key, and uses about $7 in tokens.
+  Its repo (github.com/meta-models/legal-agent-workshop) has no license: learn from it, never copy
+  its code into this repo.
 - **Credits:** each participant claims their own $150 through the form linked in the event
   announcements, by Nov 4, 9:00 PM ET. Credits arrive in batches (check the Billing page). A credit
   card must be on the account to make calls; set a Spend Limit at $150 to avoid charges.
