@@ -84,8 +84,9 @@ Sources: [Meta Model API Terms of Service](https://dev.meta.ai/legal/terms-of-se
 
 - **Age, section 10.1:** "You and your End Users must be at least 18 years of age to use the Services
   and Integrated Products" and "you will not create Integrated Products targeted at individuals under
-  the age of 18." **This shapes our product** (see the open issue on it): the only user is the parent,
-  every screen and output is addressed to the parent, and no child ever uses the app.
+  the age of 18." **This shapes our product** (see the open issue on it): users are adults only (18+):
+  tutors, parents, mentors, teachers, and adult students reviewing their own work. Every screen and
+  output is addressed to that adult user, and no child ever uses the app.
 - **Standard vs Contributor:** Standard models (`muse-spark-1.3`, etc.) do not train on our content
   (5.1). `*-contributor` models may train on it (6.1) and must not get personal data (6.2).
   **Use Standard models only.**
