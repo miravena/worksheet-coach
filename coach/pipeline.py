@@ -6,7 +6,6 @@ the agent working live (#16).
 from __future__ import annotations
 
 import time
-from concurrent.futures import ThreadPoolExecutor
 from typing import Callable
 
 from PIL import Image
@@ -48,7 +47,8 @@ def run(img: Image.Image, on_step: StepFn | None = None, *, practice: bool = Tru
     from . import summary as summary_mod
 
     t0 = time.time()
-    spent0 = meta.LEDGER.total
+    meter = meta.Meter()
+    meta.METER.set(meter)
     steps: list[dict] = []
 
     def step(model: str, action: str, **extra) -> None:
@@ -61,7 +61,7 @@ def run(img: Image.Image, on_step: StepFn | None = None, *, practice: bool = Tru
     step("code", "photo received", size=list(img.size))
 
     # Reading the header and segmenting are independent; run them side by side.
-    with ThreadPoolExecutor(max_workers=2) as ex:
+    with meta.Pool(max_workers=2) as ex:
         f_header = ex.submit(read_header, img)
         f_seg = ex.submit(segment.segment_page, img)
         header, st = f_header.result()
@@ -101,7 +101,7 @@ def run(img: Image.Image, on_step: StepFn | None = None, *, practice: bool = Tru
     # The summary and the printable sheet are independent; build them side by side.
     from . import pdf as pdf_mod
 
-    with ThreadPoolExecutor(max_workers=2) as ex:
+    with meta.Pool(max_workers=2) as ex:
         f_sum = ex.submit(summary_mod.summarize, header, verdicts, pat, prac)
         f_pdf = ex.submit(pdf_mod.practice_pdf, header, pat, prac) if prac else None
         summ = f_sum.result()
@@ -131,5 +131,5 @@ def run(img: Image.Image, on_step: StepFn | None = None, *, practice: bool = Tru
         "summary": summ,
         "steps": steps,
         "seconds": round(time.time() - t0, 1),
-        "usd": round(meta.LEDGER.total - spent0, 4),
+        "usd": round(meter.usd, 4),
     }

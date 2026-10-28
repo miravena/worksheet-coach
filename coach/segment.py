@@ -17,8 +17,6 @@ from dataclasses import dataclass, field
 
 from PIL import Image
 
-from concurrent.futures import ThreadPoolExecutor
-
 from . import meta
 
 BOX_RE = re.compile(
@@ -198,7 +196,7 @@ def segment_page(img: Image.Image) -> Segmentation:
     img = img.convert("RGB")
     W, H = img.size
     steps: list[dict] = []
-    with ThreadPoolExecutor(max_workers=2) as ex:
+    with meta.Pool(max_workers=2) as ex:
         f_plan = ex.submit(spark_layout, img)
         f_sam = ex.submit(_sam_numbers, img)
         numbers, st_sam, sam_err = f_sam.result()

@@ -7,7 +7,7 @@ the verdict, and the reason.
 
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import as_completed
 from dataclasses import asdict, dataclass
 
 from . import meta
@@ -94,7 +94,7 @@ def grade_problem(p: Problem, instructions: str = "", effort: str = "low") -> Ve
 def grade_all(problems: list[Problem], instructions: str = "", effort: str = "low",
               workers: int = 6, on_done=None) -> list[Verdict]:
     """Grade every crop in parallel; `on_done(verdict)` fires as each one finishes."""
-    with ThreadPoolExecutor(max_workers=workers) as ex:
+    with meta.Pool(max_workers=workers) as ex:
         futs = [ex.submit(grade_problem, p, instructions, effort) for p in problems]
         for f in as_completed(futs):
             if on_done:

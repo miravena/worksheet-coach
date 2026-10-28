@@ -60,8 +60,8 @@ and "borrows but does not reduce the tens" give identical answers on all six pro
 sheet cannot tell them apart; on ws25 the agent's wording ("uses the longest decimal count
 instead of adding them") names the planted habit and the judge call was too strict.
 
-Cost: about $0.05 to $0.08 per worksheet at list prices (Spark tokens including reasoning, one
-SAM image, one Muse Image), 2 to 3 minutes per sheet.
+Cost: about $0.07 to $0.10 per worksheet at list prices (Spark tokens including reasoning, one
+SAM image, one Muse Image), 1 to 3 minutes per sheet depending on how the Meta API is responding.
 
 **Known limitations:** the test sheets are generated, so real handwriting and real phone
 photos may be harder than the scores above. The agent can misread handwriting; every verdict

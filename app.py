@@ -143,12 +143,21 @@ def _jpeg(img: Image.Image) -> bytes:
 
 
 def _sample_path(name: str) -> Path:
+    """A sample sheet: its phone-photo version when one exists (closer to real use), else the page."""
     if not name.isalnum():
         raise HTTPException(404, "Unknown sample.")
+    photo = SAMPLES_DIR / f"{name}_photo.jpg"
+    if photo.is_file():
+        return photo
     p = SAMPLES_DIR / f"{name}.png"
     if not p.is_file():
         raise HTTPException(404, "Unknown sample.")
     return p
+
+
+# The samples offered on the page: a spread of topics, layouts and adult use cases.
+DEMO_SAMPLES = [s for s in os.environ.get(
+    "DEMO_SAMPLES", "ws01,ws13,ws12,ws16,ws28,ws22,ws05,ws08").split(",") if s]
 
 
 def _run_live(job: Job, img: Image.Image, sample: str | None) -> None:
@@ -199,7 +208,7 @@ def config() -> dict:
 @app.get("/api/samples")
 def samples() -> list[dict]:
     out = []
-    for p in sorted(SAMPLES_DIR.glob("ws*.png")):
+    for p in [SAMPLES_DIR / f"{n}.png" for n in DEMO_SAMPLES if (SAMPLES_DIR / f"{n}.png").is_file()]:
         title = p.stem
         meta_file = p.with_suffix(".json")
         if meta_file.exists():
@@ -214,7 +223,8 @@ def samples() -> list[dict]:
 
 @app.get("/api/samples/{name}/image")
 def sample_image(name: str) -> FileResponse:
-    return FileResponse(_sample_path(name), media_type="image/png")
+    p = _sample_path(name)
+    return FileResponse(p, media_type="image/jpeg" if p.suffix == ".jpg" else "image/png")
 
 
 @app.post("/api/run")

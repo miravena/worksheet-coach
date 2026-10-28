@@ -9,11 +9,13 @@ call retries on that and on 429/5xx with backoff (#3).
 from __future__ import annotations
 
 import base64
+import contextvars
 import io
 import json
 import os
 import threading
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -78,10 +80,36 @@ class Ledger:
                 )
 
     def charge(self, usd: float) -> None:
+        meter = METER.get()
+        if meter is not None:
+            meter.add(usd)
         with self.lock:
             self.total += usd
             self.path.parent.mkdir(parents=True, exist_ok=True)
             self.path.write_text(json.dumps({"total_usd": round(self.total, 6), "cap_usd": self.cap}))
+
+
+class Meter:
+    """Spend of one run, even when several runs share the ledger at once."""
+
+    def __init__(self) -> None:
+        self.usd = 0.0
+        self.lock = threading.Lock()
+
+    def add(self, usd: float) -> None:
+        with self.lock:
+            self.usd += usd
+
+
+METER: contextvars.ContextVar[Meter | None] = contextvars.ContextVar("meter", default=None)
+
+
+class Pool(ThreadPoolExecutor):
+    """A thread pool whose tasks keep the caller's context, so their spend lands on its Meter."""
+
+    def submit(self, fn, /, *args, **kwargs):
+        ctx = contextvars.copy_context()
+        return super().submit(ctx.run, fn, *args, **kwargs)
 
 
 LEDGER = Ledger(

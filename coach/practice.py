@@ -9,8 +9,6 @@ key was wrong is fixed or replaced, up to two rounds.
 
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
-
 from . import answers, meta
 
 DRAFT_SCHEMA = {
@@ -153,7 +151,7 @@ def make_practice(header: dict, verdicts, pattern: dict, *, n: int = 5, on_step=
     instructions = draft.get("instructions") or header.get("instructions", "")
     pool = draft["problems"]
     rounds = 0
-    with ThreadPoolExecutor(max_workers=6) as ex:
+    with meta.Pool(max_workers=6) as ex:
         checked = list(ex.map(lambda p: _check_one(dict(p), instructions), pool))
     for p in checked:
         if p.get("fixed_from"):
@@ -171,7 +169,7 @@ def make_practice(header: dict, verdicts, pattern: dict, *, n: int = 5, on_step=
                 pattern=pattern.get("pattern", ""), focus=focus)
               + "\nDo not repeat these: " + "; ".join(p["prompt"] for p in checked)}],
             schema=DRAFT_SCHEMA, schema_name="practice", effort="medium", max_tokens=16000)
-        with ThreadPoolExecutor(max_workers=6) as ex:
+        with meta.Pool(max_workers=6) as ex:
             extra = list(ex.map(lambda p: _check_one(dict(p), instructions), more["problems"]))
         checked += extra
         good += [p for p in extra if p.get("checked")]
