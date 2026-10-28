@@ -7,7 +7,7 @@ the verdict, and the reason.
 
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict, dataclass
 
 from . import meta
@@ -41,7 +41,8 @@ instructions are: "{instructions}".
 5. mistake: if wrong, name the error in a few words (for example "forgot to carry the 1",
    "added the denominators"). If right, "".
 6. explanation: one or two plain sentences for the adult checking the work: what went wrong, and
-   how the written answer was probably produced. If right, "".
+   how the written answer was probably produced. Call the person "the learner"; never guess a
+   gender. If right, "".
 7. readable: false if you cannot read the problem or the answer.
 """
 
@@ -77,6 +78,11 @@ def grade_problem(p: Problem, instructions: str = "", effort: str = "low") -> Ve
 
 
 def grade_all(problems: list[Problem], instructions: str = "", effort: str = "low",
-              workers: int = 6) -> list[Verdict]:
+              workers: int = 6, on_done=None) -> list[Verdict]:
+    """Grade every crop in parallel; `on_done(verdict)` fires as each one finishes."""
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        return list(ex.map(lambda p: grade_problem(p, instructions, effort), problems))
+        futs = [ex.submit(grade_problem, p, instructions, effort) for p in problems]
+        for f in as_completed(futs):
+            if on_done:
+                on_done(f.result())
+        return [f.result() for f in futs]

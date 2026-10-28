@@ -18,6 +18,7 @@ DRAFT_SCHEMA = {
     "properties": {
         "title": {"type": "string"},
         "instructions": {"type": "string"},
+        "illustration": {"type": "string"},
         "problems": {
             "type": "array",
             "items": {
@@ -33,7 +34,7 @@ DRAFT_SCHEMA = {
             },
         },
     },
-    "required": ["title", "instructions", "problems"],
+    "required": ["title", "instructions", "illustration", "problems"],
     "additionalProperties": False,
 }
 
@@ -56,6 +57,9 @@ Rules:
   "x = 4", "$30").
 - why: one short phrase on what this problem tests.
 - title: "Practice: <topic>". instructions: one line, like the original's.
+- illustration: one sentence describing a simple line drawing for the top of the sheet that shows
+  the idea behind the right method (for example "ten unit cubes being bundled into one ten-rod").
+  No text or digits in it, no people.
 """
 
 SOLVE_SCHEMA = {
@@ -181,6 +185,7 @@ def make_practice(header: dict, verdicts, pattern: dict, *, n: int = 5, on_step=
          kind="practice", practice={"problems": final})
     return {
         "title": draft.get("title") or f"Practice: {header.get('subject', '')}",
+        "illustration": draft.get("illustration", ""),
         "instructions": instructions,
         "problems": final,
         "drafted": len(checked),

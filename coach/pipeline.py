@@ -74,17 +74,22 @@ def run(img: Image.Image, on_step: StepFn | None = None, *, practice: bool = Tru
          numbers=[b.as_list() for b in seg.numbers],
          problems=[p.box.as_list() for p in seg.problems], size=list(seg.size))
 
-    verdicts = grade.grade_all(seg.problems, header["instructions"])
+    def verdict_step(v) -> None:
+        if v.error:
+            return  # retried below; only report the final outcome
+        step(meta.SPARK, f"problem {v.index}: " + ("correct" if v.is_correct else f"wrong: {v.mistake}"),
+             kind="verdict", verdict=v.to_dict())
+
+    verdicts = grade.grade_all(seg.problems, header["instructions"], on_done=verdict_step)
     if regrade_failures:
         failed = [p for p, v in zip(seg.problems, verdicts) if v.error]
         if failed:
             step("code", f"Meta API dropped {len(failed)} call(s); retrying those problems")
-            redo = {v.index: v for v in grade.grade_all(failed, header["instructions"])}
+            redo = {v.index: v for v in grade.grade_all(failed, header["instructions"], on_done=verdict_step)}
             verdicts = [redo.get(v.index, v) for v in verdicts]
     for v in verdicts:
-        step(meta.SPARK, f"problem {v.index}: " + ("could not grade" if v.error else
-             ("correct" if v.is_correct else f"wrong: {v.mistake}")),
-             kind="verdict", verdict=v.to_dict())
+        if v.error:
+            step(meta.SPARK, f"problem {v.index}: could not grade", kind="verdict", verdict=v.to_dict())
 
     pat = pattern_mod.find_pattern(header, verdicts)
     step(meta.SPARK, f'pattern: {pat["pattern"]}', kind="pattern", pattern=pat)
@@ -93,8 +98,23 @@ def run(img: Image.Image, on_step: StepFn | None = None, *, practice: bool = Tru
     if practice:
         prac = practice_mod.make_practice(header, verdicts, pat, on_step=step)
 
-    summ = summary_mod.summarize(header, verdicts, pat, prac)
-    step(meta.SPARK, "wrote the 30-second summary", kind="summary")
+    # The summary and the printable sheet are independent; build them side by side.
+    from . import pdf as pdf_mod
+
+    with ThreadPoolExecutor(max_workers=2) as ex:
+        f_sum = ex.submit(summary_mod.summarize, header, verdicts, pat, prac)
+        f_pdf = ex.submit(pdf_mod.practice_pdf, header, pat, prac) if prac else None
+        summ = f_sum.result()
+        step(meta.SPARK, "wrote the 30-second summary", kind="summary", summary=summ)
+        if f_pdf is not None:
+            try:
+                files = f_pdf.result()
+                prac.update(files)
+                step(meta.IMAGE if files["art"] else "code",
+                     "drew the practice sheet illustration and typeset the PDF" if files["art"]
+                     else "typeset the PDF (illustration unavailable)", kind="pdf", **files)
+            except Exception as e:
+                step("code", f"PDF failed: {str(e)[:120]}")
 
     wrong = [v for v in verdicts if not v.is_correct and not v.error]
     return {
