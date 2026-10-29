@@ -9,6 +9,8 @@ key was wrong is fixed or replaced, up to two rounds.
 
 from __future__ import annotations
 
+import re
+
 from . import answers, meta
 
 DRAFT_SCHEMA = {
@@ -55,8 +57,10 @@ Rules:
   "x = 4", "$30").
 - why: one short phrase on what this problem tests.
 - title: "Practice: <topic>". instructions: one line, like the original's.
-- illustration: one sentence describing a simple line drawing for the top of the sheet that shows
-  the idea behind the right method (for example "ten unit cubes being bundled into one ten-rod").
+- illustration: one sentence describing a friendly line drawing for the top of the sheet: a
+  concrete, everyday object or scene that shows the idea behind the right method, never abstract
+  arrows or lines (for example "ten unit cubes being bundled into one ten-rod", "a thermometer
+  whose red line climbs as the cold is taken away", "a kitchen scale with a measuring jug").
   No text or digits in it, no people.
 """
 
@@ -142,6 +146,14 @@ def _check_one(p: dict, instructions: str) -> dict:
     return p
 
 
+def _unnumbered(problems: list[dict]) -> list[dict]:
+    """Drop numbering the model sometimes writes ("1. 2 - (-1) ="); the sheet numbers problems.
+    Needs a space after the dot, so a decimal like "0.5 + 0.25" is left alone."""
+    for p in problems:
+        p["prompt"] = re.sub(r"^\s*(?:\d{1,2}|[a-h])[.)]\s+", "", p.get("prompt", ""))
+    return problems
+
+
 def make_practice(header: dict, verdicts, pattern: dict, *, n: int = 5, on_step=None) -> dict:
     def step(model, action, **kw):
         if on_step:
@@ -160,7 +172,7 @@ def make_practice(header: dict, verdicts, pattern: dict, *, n: int = 5, on_step=
          seconds=round(st.seconds, 1))
 
     instructions = draft.get("instructions") or header.get("instructions", "")
-    pool = draft["problems"]
+    pool = _unnumbered(draft["problems"])
     rounds = 0
     with meta.Pool(max_workers=6) as ex:
         checked = list(ex.map(lambda p: _check_one(dict(p), instructions), pool))
@@ -181,7 +193,7 @@ def make_practice(header: dict, verdicts, pattern: dict, *, n: int = 5, on_step=
               + "\nDo not repeat these: " + "; ".join(p["prompt"] for p in checked)}],
             schema=DRAFT_SCHEMA, schema_name="practice", effort="medium", max_tokens=16000)
         with meta.Pool(max_workers=6) as ex:
-            extra = list(ex.map(lambda p: _check_one(dict(p), instructions), more["problems"]))
+            extra = list(ex.map(lambda p: _check_one(dict(p), instructions), _unnumbered(more["problems"])))
         checked += extra
         good += [p for p in extra if p.get("checked")]
 

@@ -1,0 +1,32 @@
+[
+ {"id": "hook", "picture": "ws01 sheet, slow zoom", "lines": [
+  ["You're helping someone with math: your kid's homework, a G.E.D. student, a nurse studying dosage math.", "You're helping someone with math: homework, a GED student, a nurse studying dosage math."],
+  ["You see the red marks. You don't see why.", ""],
+  ["47 plus 38 is 75. 59 plus 36 is 85.", "47 + 38 = 75 · 59 + 36 = 85"],
+  ["Those aren't two mistakes. They're one habit: the ten never gets carried.", ""]]},
+ {"id": "start", "picture": "start page, pick the Subtracting Negative Numbers phone photo", "lines": [
+  ["worksheet-coach is an agent for the adult in the room.", ""],
+  ["Take a photo. It finds the habit behind the wrong answers, and writes the five practice problems that fix it.", ""]]},
+ {"id": "live", "picture": "live run: boxes, verdicts, step trace", "lines": [
+  ["Muse Spark reads the page and plans it: six problems, two columns.", ""],
+  ["At the same time, SAM three point one finds every number on the page with pixel-accurate boxes, and the agent snaps each problem to that geometry.", "At the same time, SAM 3.1 finds every number on the page with pixel-accurate boxes, and the agent snaps each problem to that geometry."],
+  ["Then Muse Spark grades each problem on its own crop, so every verdict keeps its evidence: what it read, what was written, what's right.", ""],
+  ["And a second model, Meta's open-weights Muse Spark Open, reads the handwriting on the same crop, on its own. If the two readings ever differ, the adult is told to check, before trusting the verdict.", ""]]},
+ {"id": "pattern", "picture": "pattern card, evidence cards", "lines": [
+  ["Then it looks across the whole sheet. Four wrong answers, one rule: subtracting a negative is treated as plain subtraction.", ""],
+  ["And it checks the rule against every wrong answer the learner wrote.", ""]]},
+ {"id": "practice", "picture": "practice list, checked badge, printable sheet, answer key page", "lines": [
+  ["Practice is where A.I. worksheets go wrong: the answer keys.", "Practice is where AI worksheets go wrong: the answer keys."],
+  ["So the agent doesn't trust its own draft. Every answer is solved again by a different model, Muse Spark Open, which never sees the draft. If they disagree, a judge call settles it, and the key gets fixed.", ""],
+  ["Each problem also records the answer the habit would give, so the adult knows exactly what to watch for.", ""],
+  ["Muse Image draws the sheet's illustration. The numbers are typeset in code, so no digit is ever misdrawn.", ""]]},
+ {"id": "accuracy", "picture": "accuracy card, then the nursing dosage sample", "lines": [
+  ["We built a thirty-sheet test set: handwriting, phone photos, two columns, stacked problems, G.E.D., ASVAB and nursing math.", "We built a 30-sheet test set: handwriting, phone photos, two columns, stacked problems, GED, ASVAB and nursing math."],
+  ["Every sheet split correctly. A hundred and eighty-four of a hundred and eighty-four verdicts right.", "Every sheet split correctly. 184 of 184 verdicts right."],
+  ["Everything you've seen was built during this hackathon.", ""]]},
+ {"id": "summary", "picture": "the 30-second summary", "lines": [
+  ["And the adult gets a thirty-second summary: the score, the habit, one thing to try together.", "And the adult gets a 30-second summary: the score, the habit, one thing to try together."],
+  ["It's built for adults, and it's a helper, not a grade.", ""]]},
+ {"id": "title", "picture": "title card", "lines": [
+  ["worksheet-coach. Five problems that matter, not twenty more.", ""]]}
+]

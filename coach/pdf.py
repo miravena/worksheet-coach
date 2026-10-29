@@ -43,8 +43,9 @@ def illustration(header: dict, pattern: dict, practice: dict) -> tuple[Image.Ima
     idea = practice.get("illustration") or (
         f"a simple visual model of {pattern.get('skill') or header.get('subject', 'the math skill')}")
     prompt = (f"Simple black line-art illustration for the top of a printable math practice worksheet: "
-              f"{idea}. White background. No text, no letters, no digits, no people. Calm, minimal, "
-              f"thin even strokes, suited to a home printer.")
+              f"{idea.rstrip('.')}. Coloring-book style: clean black outlines of recognizable objects, "
+              f"white background, no shading. No text, no letters, no digits, no people. "
+              f"Friendly and calm, suited to a home printer.")
     try:
         data, _ = meta.generate_image(prompt, size="1536x512")
         return Image.open(io.BytesIO(data)).convert("RGB"), prompt
@@ -139,8 +140,11 @@ def render(header: dict, pattern: dict, practice: dict, art: Image.Image | None)
             note = f"first draft said {p['fixed_from']}; the check caught it and corrected the key"
         d.text((M + 40, y), note, font=SMALL, fill=GREY)
         y += 70
+    two = ("by two different models (Muse Spark and the open-weights Muse Spark Open)"
+           if any(p.get("solver") == meta.SPARK_OPEN for p in practice.get("problems", []))
+           else "by separate model calls")
     d.text((M, H - 130), textwrap.fill(
-        "AI can make mistakes. Every answer above was solved twice by separate model calls; "
+        f"AI can make mistakes. Every answer above was solved twice {two}; "
         "anything marked NOT verified needs your eye.", 90), font=SMALL, fill=GREY)
     return [p1, p2]
 

@@ -55,3 +55,11 @@ def test_baseten_failure_still_grades(spark, monkeypatch):
     monkeypatch.setattr(meta, "open_chat", down)
     v = grade.grade_problem(problem())
     assert v.written_answer == "2" and v.reads_agree is None
+
+
+def test_practice_numbering_is_dropped_but_decimals_kept():
+    from coach.practice import _unnumbered
+
+    got = _unnumbered([{"prompt": "1. 2 - (-1) ="}, {"prompt": "3) 6 - (-4) ="},
+                       {"prompt": "0.5 + 0.25 ="}, {"prompt": "12 + 5 ="}, {"prompt": "b. 7 x 8 ="}])
+    assert [p["prompt"] for p in got] == ["2 - (-1) =", "6 - (-4) =", "0.5 + 0.25 =", "12 + 5 =", "7 x 8 ="]
