@@ -116,7 +116,7 @@ Command line: `python3 tests/accuracy.py ws01 ws05` scores some sheets;
 
 `muse-spark-1.3` (Standard mode, so our content is not used for training), `sam-3.1`,
 `muse-image-1.0`, all through the Meta Model API. No Contributor-mode models. Plus Meta's
-open-weights `meta-models/muse-spark-open`, served by Baseten's OpenAI-compatible Model API
+open-weights Muse Spark Open (`meta-models/muse-spark-open-1026`, the hackathon build), served by Baseten's OpenAI-compatible Model API
 (`BASETEN_API_KEY` in `.env`), for the independent answer-key check.
 
 ## Dependencies and licenses

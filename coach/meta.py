@@ -23,7 +23,7 @@ import requests
 
 BASE_URL = os.environ.get("META_BASE_URL", "https://api.meta.ai/v1")
 SPARK = "muse-spark-1.3"
-SPARK_OPEN = "meta-models/muse-spark-open"  # Meta's open-weights Muse Spark, hosted by Baseten
+SPARK_OPEN = "meta-models/muse-spark-open-1026"  # hackathon build of Meta's open-weights Muse Spark, on Baseten
 BASETEN_URL = os.environ.get("BASETEN_BASE_URL", "https://inference.baseten.co/v1")
 SAM = "sam-3.1"
 IMAGE = "muse-image-1.0"
