@@ -75,6 +75,9 @@ def run_sheet(ws: str, with_pattern: bool, photo: bool = False) -> dict:
             "pred": v.is_correct, "truth": k["is_correct"],
             "read": v.written_answer, "written": k["written_answer"],
             "mistake": v.mistake,
+            "second_read": v.second_read, "reads_agree": v.reads_agree,
+            "second_ok": None if v.second_read is None
+            else bool(answers.same(v.second_read, k["written_answer"])),
         })
     res = {
         "sheet": ws, "title": key["title"], "method": seg.method,
@@ -101,6 +104,7 @@ def main() -> int:
     a = ap.parse_args()
     sheets = a.sheets or sorted(p.stem for p in SHEETS.glob("ws*.json"))
     spent0 = meta.LEDGER.total
+    open0 = meta.OPEN_LEDGER.total
     with ThreadPoolExecutor(max_workers=a.workers) as ex:
         results = list(ex.map(lambda s: run_sheet(s, a.pattern, a.photo), sheets))
 
@@ -113,7 +117,7 @@ def main() -> int:
         print(f"{r['sheet']:<6} {r['title'][:28]:<28} {split:>7} "
               f"{r['verdicts_ok']:>4}/{r['n']:<4} {r['reads_ok']:>3}/{r['n']:<3}  {pat}")
         for row in r["rows"]:
-            if not row["verdict_ok"]:
+            if not row["verdict_ok"] or row.get("reads_agree") is False:
                 print(f"         problem {row['n']}: {row}")
     tot = sum(r["n"] for r in results)
     v_ok = sum(r["verdicts_ok"] for r in results)
@@ -124,6 +128,13 @@ def main() -> int:
     if a.pattern:
         p_ok = sum(r.get("pattern_ok", False) for r in results)
         print(f"   PATTERN {p_ok}/{len(results)}", end="")
+    rows = [row for r in results for row in r["rows"] if row.get("second_read") is not None]
+    if rows:
+        agree = sum(bool(row["reads_agree"]) for row in rows)
+        s_ok = sum(bool(row["second_ok"]) for row in rows)
+        missed = sum(1 for row in rows if not row.get("read_ok") and row["reads_agree"])
+        print(f"\nSECOND READER (Muse Spark Open)  agrees {agree}/{len(rows)}   right {s_ok}/{len(rows)}   "
+              f"misreads it did not flag {missed}   Baseten ${meta.OPEN_LEDGER.total - open0:.3f}", end="")
     print(f"   cost ${meta.LEDGER.total - spent0:.3f}")
     OUT.mkdir(parents=True, exist_ok=True)
     stamp = time.strftime("%Y%m%d-%H%M%S")

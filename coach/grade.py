@@ -3,6 +3,10 @@
 One call per crop, so the verdict for problem 3 cannot be confused with problem 4. Each call
 returns an evidence record the adult can check: what the model read, the answer it worked out,
 the verdict, and the reason.
+
+When a Baseten key is set, Muse Spark Open (open weights) reads the written answer on the same
+crop at the same time, without seeing Spark's reading. Code compares the two; if they differ the
+problem is flagged so the adult checks the handwriting before trusting the verdict.
 """
 
 from __future__ import annotations
@@ -10,7 +14,7 @@ from __future__ import annotations
 from concurrent.futures import as_completed
 from dataclasses import asdict, dataclass
 
-from . import meta
+from . import answers, meta
 from .segment import Problem
 
 GRADE_SCHEMA = {
@@ -51,6 +55,18 @@ Handwriting: look closely for decimal points, minus signs, fraction bars and rem
 in the written answer; a missing decimal point changes the answer.
 """
 
+READ_SCHEMA = {
+    "type": "object",
+    "properties": {"written_answer": {"type": "string"}},
+    "required": ["written_answer"],
+    "additionalProperties": False,
+}
+
+READ_PROMPT = """This is one problem cut from a completed math worksheet. Copy only the handwritten or
+filled-in answer exactly as written, even if it is wrong. Use "" if the answer is blank. Use / for
+fractions and ^ for powers. Look closely for decimal points, minus signs, fraction bars and
+remainders ("R"). Do not solve the problem."""
+
 
 @dataclass
 class Verdict:
@@ -66,6 +82,8 @@ class Verdict:
     seconds: float = 0.0
     usd: float = 0.0
     error: str = ""
+    second_read: str | None = None  # Muse Spark Open's reading of the written answer
+    reads_agree: bool | None = None  # None when there was no second reading
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -80,15 +98,34 @@ def _for_model(crop):
     return crop.resize((int(w * k), int(h * k)), Image.LANCZOS) if k > 1.01 else crop
 
 
-def grade_problem(p: Problem, instructions: str = "", effort: str = "low") -> Verdict:
+def second_read(crop) -> str | None:
+    """Muse Spark Open's own reading of the written answer, or None if it is off or failed."""
+    if not meta.open_weights_available():
+        return None
     try:
-        out, st = meta.chat(
-            [meta.user_msg(GRADE_PROMPT.format(instructions=instructions or "not given"), _for_model(p.crop))],
-            schema=GRADE_SCHEMA, schema_name="grade", effort=effort,
-        )
-        return Verdict(p.index, p.box.as_list(), **out, seconds=round(st.seconds, 1), usd=round(st.usd, 5))
-    except Exception as e:  # keep the sheet going; the adult sees which problem failed
-        return Verdict(p.index, p.box.as_list(), "", "", "", False, "", "", False, error=str(e)[:300])
+        out, _ = meta.open_chat([meta.user_msg(READ_PROMPT, crop)], schema=READ_SCHEMA,
+                                schema_name="read", max_tokens=4000)
+        return str(out["written_answer"])
+    except Exception:
+        return None  # Baseten down or out of credit: grade without the second reading
+
+
+def grade_problem(p: Problem, instructions: str = "", effort: str = "low") -> Verdict:
+    crop = _for_model(p.crop)
+    with meta.Pool(max_workers=1) as ex:
+        second = ex.submit(second_read, crop)
+        try:
+            out, st = meta.chat(
+                [meta.user_msg(GRADE_PROMPT.format(instructions=instructions or "not given"), crop)],
+                schema=GRADE_SCHEMA, schema_name="grade", effort=effort,
+            )
+            v = Verdict(p.index, p.box.as_list(), **out, seconds=round(st.seconds, 1), usd=round(st.usd, 5))
+        except Exception as e:  # keep the sheet going; the adult sees which problem failed
+            v = Verdict(p.index, p.box.as_list(), "", "", "", False, "", "", False, error=str(e)[:300])
+        v.second_read = second.result()
+    if v.second_read is not None and not v.error:
+        v.reads_agree = answers.same_text(v.written_answer, v.second_read)
+    return v
 
 
 def grade_all(problems: list[Problem], instructions: str = "", effort: str = "low",

@@ -21,10 +21,10 @@ fields (#2): the form may ask for things not listed here.
 |---|---|---|
 | 0:00 to 0:20 | A filled-in worksheet on a table, phone taking a photo | "You're helping someone with math: your kid's homework, a GED student, a nurse studying dosage math. You see the red marks. You don't see *why*. 47 plus 38 is 75; 59 plus 36 is 85. Those aren't two mistakes. They're one habit: the ten never gets carried." |
 | 0:20 to 0:35 | App start page, pick the two-column phone photo (Subtracting Negative Numbers) | "worksheet-coach is an agent for the adult in the room. Take a photo; it finds the habit behind the wrong answers and writes the five practice problems that fix it." |
-| 0:35 to 1:20 | Live view: boxes appear, problems turn red and green, trace scrolls | "Muse Spark reads the page and plans it: six problems, two columns. At the same time SAM 3.1 finds every number on the page with pixel-accurate boxes, and the agent snaps each problem to that geometry. Then Muse Spark grades each problem on its own crop, so every verdict keeps its evidence: what it read, what was written, what's right." |
+| 0:35 to 1:20 | Live view: boxes appear, problems turn red and green, trace scrolls | "Muse Spark reads the page and plans it: six problems, two columns. At the same time SAM 3.1 finds every number on the page with pixel-accurate boxes, and the agent snaps each problem to that geometry. Then Muse Spark grades each problem on its own crop, so every verdict keeps its evidence: what it read, what was written, what's right. And a second model, Meta's open-weights Muse Spark Open, reads the handwriting on the same crop on its own. If the two readings ever differ, the adult is told to check before trusting the verdict." |
 | 1:20 to 1:45 | Pattern card and evidence cards | "Then it looks across the whole sheet. Four wrong answers, one rule: subtracting a negative is treated as subtracting. It checks the rule by re-running it on every wrong problem: it reproduces each written answer exactly." |
 | 1:45 to 2:15 | Practice list, answer-key-checked badge, PDF preview, page 2 of the PDF | "Practice is where AI worksheets go wrong: the answer keys. So the agent doesn't trust its own draft. Every answer is solved again by a different model, Meta's open-weights Muse Spark Open on Baseten, which never sees the draft; if they disagree, a judge call settles it and the key gets fixed. Each problem also records the answer the habit would give, so the adult knows exactly what to watch for. Muse Image draws the sheet's illustration; the numbers are typeset in code, so no digit is ever misdrawn." |
-| 2:15 to 2:35 | Accuracy table in the README, a second sample (nursing dosage or trades area/perimeter) | "We built a 30-sheet test set: handwriting, phone photos, two columns, stacked problems, GED, ASVAB and nursing math. Every sheet split correctly; 184 of 184 verdicts and written answers right." |
+| 2:15 to 2:35 | Accuracy table in the README, a second sample (nursing dosage or trades area/perimeter) | "We built a 30-sheet test set: handwriting, phone photos, two columns, stacked problems, GED, ASVAB and nursing math. Every sheet split correctly; 184 of 184 verdicts and written answers right. Everything you've seen was built during this hackathon." |
 | 2:35 to 2:55 | 30-second summary on screen | "And the adult gets a 30-second summary: the score, the habit, one thing to try together." |
 | 2:55 to 3:00 | Title card: worksheet-coach, repo URL, "Muse Spark · SAM 3.1 · Muse Image · Muse Spark Open" | "worksheet-coach. Five problems that matter, not twenty more." |
 
@@ -73,9 +73,12 @@ the event; it is for adults (18+) and is a helper, not a grade.
   is tightened to SAM's pixel boxes (Spark decides what to segment, SAM gives the geometry).
 - Muse Image 1.0: draws the printable sheet's illustration; problems and answers are typeset in
   code so no digit is misdrawn.
-- Muse Spark Open (open weights, `meta-models/muse-spark-open-1026` on Baseten): re-solves every
-  practice answer without seeing the draft, a second opinion from a different model. On
-  2026-10-29, 15 of 15 practice answers on three sheets were checked this way, about $0.0003 each.
+- Muse Spark Open (open weights, `meta-models/muse-spark-open-1026` on Baseten), two independent
+  checks by a different model: (1) a second reading of every handwritten answer, made on the same
+  crop without seeing Spark's reading; if the readings differ the problem is flagged for the adult
+  (on the 30-sheet test the two readers agreed on 183 of 184 answers, and the one difference was
+  spacing); (2) re-solving every practice answer without seeing the draft key, before anything
+  is printed. Under a cent per worksheet.
 
 **Why are Meta's models important to your solution?**
 The product only works if a model can read a phone photo of handwriting, plan an irregular page,

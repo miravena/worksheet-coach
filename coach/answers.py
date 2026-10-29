@@ -63,6 +63,12 @@ def value(s: str):
     return _number(s)
 
 
+def same_text(a: str, b: str) -> bool:
+    """Same as written, ignoring spaces and case: for comparing two readings of handwriting,
+    where "10/12" and "5/6" are different readings even though they are equal values."""
+    return _clean(a).replace(" ", "") == _clean(b).replace(" ", "")
+
+
 def same(a: str, b: str) -> bool | None:
     ca, cb = _clean(a), _clean(b)
     if ca == cb:
@@ -70,11 +76,21 @@ def same(a: str, b: str) -> bool | None:
     va, vb = value(a), value(b)
     if va is not None and vb is not None:
         return va == vb
+    if ca.replace(" ", "") == cb.replace(" ", ""):  # "-2x + 5" vs "-2x+5"
+        return True
     if sympy is not None and ca and cb:
         try:
-            ea = sympy.sympify(ca.replace("^", "**"), evaluate=True)
-            eb = sympy.sympify(cb.replace("^", "**"), evaluate=True)
+            ea, eb = _expr(ca), _expr(cb)
             return bool(sympy.simplify(ea - eb) == 0)
         except Exception:
             return None
     return None
+
+
+def _expr(s: str):
+    """Parse algebra as written on worksheets: "2x" means 2*x, "^" means power."""
+    from sympy.parsing.sympy_parser import (implicit_multiplication_application, parse_expr,
+                                            standard_transformations)
+
+    return parse_expr(s.replace("^", "**"),
+                      transformations=standard_transformations + (implicit_multiplication_application,))

@@ -115,3 +115,6 @@ button, .link { font: inherit; border-radius: 10px; padding: 12px 18px; border: 
 .sheet-preview { display: block; width: 100%; max-width: 520px; margin: 16px auto; border: 1px solid #ddd;
   box-shadow: 0 2px 10px rgba(0,0,0,.08); background: #fff; }
 .muted { color: #666; font-size: .92em; }
+
+.ev .f.second span { color: var(--muted, #667); }
+.ev .f.flag span, .ev .why.flag { color: var(--warn, #9a5b00); font-weight: 600; }

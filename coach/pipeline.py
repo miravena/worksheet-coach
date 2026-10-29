@@ -90,6 +90,12 @@ def run(img: Image.Image, on_step: StepFn | None = None, *, practice: bool = Tru
     for v in verdicts:
         if v.error:
             step(meta.SPARK, f"problem {v.index}: could not grade", kind="verdict", verdict=v.to_dict())
+    second = [v for v in verdicts if v.reads_agree is not None]
+    if second:
+        flagged = [v.index for v in second if not v.reads_agree]
+        step(meta.SPARK_OPEN, f"second reader (Muse Spark Open, open weights): {len(second) - len(flagged)}/"
+                              f"{len(second)} handwritten answers read the same"
+                              + (f"; check problem(s) {', '.join(map(str, flagged))}" if flagged else ""))
 
     pat = pattern_mod.find_pattern(header, verdicts)
     step(meta.SPARK, f'pattern: {pat["pattern"]}', kind="pattern", pattern=pat)

@@ -271,6 +271,12 @@
       field("Agent read", v.problem_text, "read");
       field("Written answer", v.written_answer);
       field("Correct answer", v.correct_answer);
+      if (v.second_read != null && !v.error) {
+        field("Second reading (Muse Spark Open)", v.reads_agree ? "matches" : v.second_read,
+              v.reads_agree ? "second" : "second flag");
+        if (!v.reads_agree) card.appendChild(el("div", { "class": "why flag" },
+          "Two models read the handwriting differently. Look at the answer on the sheet before trusting this verdict."));
+      }
       var why = v.error ? "The agent could not grade this one: " + v.error
         : [v.mistake, v.explanation].filter(Boolean).join(". ");
       if (why) card.appendChild(el("div", { "class": "why" }, why));

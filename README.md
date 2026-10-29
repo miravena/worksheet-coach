@@ -26,7 +26,7 @@ ship wrong answer keys.
 |---|---|---|
 | 1. Read the sheet | **Muse Spark 1.3** | Title, instructions, subject and level, in parallel with step 2 |
 | 2. Cut it into problems | **Muse Spark 1.3 + SAM 3.1** | Spark plans the page: every problem, its printed number, and roughly where it sits, across columns and stacked layouts. In parallel, SAM segments every `number` on the page with pixel-accurate boxes, and each planned region is tightened to SAM's geometry (Meta's guide suggests this pairing: Spark decides what to segment, SAM gives the pixels). If Spark's plan fails, SAM's boxes are grouped into problems on their own |
-| 3. Grade each crop | **Muse Spark 1.3** | One call per problem, structured output: what it read, what was written, the correct answer, verdict, the mistake and how the wrong answer was produced. Calls the API dropped are retried |
+| 3. Grade each crop | **Muse Spark 1.3 + Muse Spark Open** | One call per problem, structured output: what it read, what was written, the correct answer, verdict, the mistake and how the wrong answer was produced. Calls the API dropped are retried. At the same time Meta's open-weights **Muse Spark Open** (on Baseten) reads the written answer on the same crop without seeing Spark's reading; if the two readings differ, the problem is flagged so the adult checks the handwriting first |
 | 4. Find the pattern | **Muse Spark 1.3** | Looks across all problems, right and wrong, and must show the wrong method reproduces each written answer |
 | 5. Write practice | **Muse Spark 1.3** | Drafts 7 problems in the same format. Each records the answer the habit would give, so the habit cannot hide |
 | 6. Check its own answer key | **Muse Spark Open** (open weights, on Baseten) | Every answer is solved again by a *different* model, Meta's open-weights Muse Spark Open, which never sees the draft, so agreement is a real second opinion (falls back to a separate Muse Spark 1.3 call when no Baseten key is set). Code compares them (fractions, remainders, money, `x = 5`, algebra via SymPy). Disagreements go to a judge call; wrong keys are corrected or replaced, up to two rounds |
@@ -45,7 +45,7 @@ Per-problem crops keep the evidence attached to the problem, and the adult can c
 30 generated worksheets with planted mistakes and answer keys (`tests/worksheets/`): school and
 adult topics (GED, ASVAB, nursing dosage and trades math), 17 with handwritten answers, 15 as
 phone-photo versions (tilt, shadow, blur, JPEG), two-column and stacked layouts, three
-all-correct controls, one isolated slip and one blank answer. Run of 2026-10-28, using the
+all-correct controls, one isolated slip and one blank answer. Run of 2026-10-29, using the
 phone photo wherever a sheet has one:
 
 | Measure | Score |
@@ -53,15 +53,22 @@ phone photo wherever a sheet has one:
 | Sheets split into the right problems | 30/30 |
 | Right/wrong verdicts matching the answer key | 184/184 |
 | Written answers read correctly | 184/184 |
+| Written answers read the same by both readers (Muse Spark 1.3 and Muse Spark Open) | 183/184 |
 | Planted habit found (judged by a separate Spark call) | 28/30 |
 
-The two pattern misses, checked by hand: on ws02, "subtracts the smaller digit from the larger"
-and "borrows but does not reduce the tens" give identical answers on all six problems, so the
-sheet cannot tell them apart; on ws25 the agent's wording ("uses the longest decimal count
-instead of adding them") names the planted habit and the judge call was too strict.
+The one reading difference was spacing only (`-2x + 5` against `-2x+5`); readings are now compared
+ignoring spaces. No misread went unflagged: when both readers agreed, they were right.
+
+The two pattern misses, checked by hand, are both the judge call being too strict: on ws15 the
+agent wrote "adds same change to second term instead of scaling proportionally" for the planted
+"adds the same amount to both sides instead of scaling by a factor", and on ws25 "uses max
+decimal places instead of adding them" for the planted decimal-count habit. In earlier runs ws02
+sometimes misses: "subtracts the smaller digit from the larger" and "borrows but does not reduce
+the tens" give identical answers on all six problems, so that sheet cannot tell them apart.
 
 Cost: about $0.07 to $0.10 per worksheet at list prices (Spark tokens including reasoning, one
-SAM image, one Muse Image), 1 to 3 minutes per sheet depending on how the Meta API is responding.
+SAM image, one Muse Image), plus under a cent on Baseten for Muse Spark Open (the full 30-sheet
+test used $0.18 there), 1 to 3 minutes per sheet depending on how the Meta API is responding.
 
 **Known limitations:** the test sheets are generated, so real handwriting and real phone
 photos may be harder than the scores above. The agent can misread handwriting; every verdict
@@ -85,7 +92,7 @@ Settings (environment or `.env`):
 | Variable | Default | What it does |
 |---|---|---|
 | `SPEND_CAP_USD` | 60 | Hard cap on estimated spend. Meta's spend limit only sends an email, so the app refuses new calls past this |
-| `BASETEN_API_KEY` | unset | Turns on Muse Spark Open for the answer-key check |
+| `BASETEN_API_KEY` | unset | Turns on Muse Spark Open: the second handwriting reader and the answer-key check |
 | `BASETEN_CAP_USD` | 60 | Separate hard cap for Baseten spend (estimated) |
 | `RUNS_PER_IP_PER_HOUR` | 5 | Abuse guard for a public demo |
 | `MAX_CONCURRENT_RUNS` | 2 | Runs at once |
@@ -102,7 +109,7 @@ Command line: `python3 tests/accuracy.py ws01 ws05` scores some sheets;
 |---|---|
 | `coach/meta.py` | Meta Model API client: retries, spend ledger and hard cap |
 | `coach/segment.py` | SAM 3.1 segmentation and grouping into problems; Spark fallback |
-| `coach/grade.py` | Per-problem grading with an evidence record |
+| `coach/grade.py` | Per-problem grading with an evidence record; the Muse Spark Open second reader |
 | `coach/pattern.py` | The pattern across the sheet |
 | `coach/practice.py` | Practice drafting and the answer-key self-check |
 | `coach/answers.py` | Answer equality in code |
@@ -116,8 +123,11 @@ Command line: `python3 tests/accuracy.py ws01 ws05` scores some sheets;
 
 `muse-spark-1.3` (Standard mode, so our content is not used for training), `sam-3.1`,
 `muse-image-1.0`, all through the Meta Model API. No Contributor-mode models. Plus Meta's
-open-weights Muse Spark Open (`meta-models/muse-spark-open-1026`, the hackathon build), served by Baseten's OpenAI-compatible Model API
-(`BASETEN_API_KEY` in `.env`), for the independent answer-key check.
+open-weights Muse Spark Open (`meta-models/muse-spark-open-1026`, the hackathon build), served by
+Baseten's OpenAI-compatible Model API (`BASETEN_API_KEY` in `.env`), for two independent checks:
+a second reading of every handwritten answer, and re-solving every practice answer. It is asked
+for JSON in the prompt; strict `json_schema` output made it write whitespace until its token
+limit.
 
 ## Dependencies and licenses
 
