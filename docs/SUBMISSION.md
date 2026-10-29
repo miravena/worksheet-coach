@@ -30,35 +30,70 @@ fields (#2): the form may ask for things not listed here.
 
 Say plainly, somewhere in the video: it is for adults (18+), and it is a helper, not a grade.
 
-## Form text (adapt to the actual fields)
+## Form fields and answers
 
-**One line:** An agent that photographs a finished math worksheet, finds the one habit behind the
-wrong answers, and writes self-checked practice that targets it, for the adult helping.
+The submit form, as seen on 2026-10-29 (#2). Fields marked * are required. There is no field for
+a live demo URL, no bonus-prize checkboxes and no prior-work question: the open-weights bonus is
+flagged by the judges in round one, and most viral only needs the X link.
 
-**Description:**
+| Field | Answer |
+|---|---|
+| Team Name * | The founder picks it (for example "worksheet-coach") |
+| Team Members | Pre-filled from the Cerebral Valley account; check that it lists exactly the people who built it |
+| Track * | Indie developer |
+| Problem statement * | Build for Your World |
+| X post link (most viral) | The link to the posted X post (draft below); post it before submitting |
+| Project Description * | Below |
+| Public GitHub Repository * | https://github.com/miravena/worksheet-coach |
+| 3-Minute Demo Video * | The YouTube link (upload as Unlisted or Public; check it plays in a private window) |
+| Use of Meta products * | Below |
+| Why Meta's models matter * | Below |
+| Partner feedback (Fireworks, Modal, Baseten) | Only if Baseten was actually used (#17); below |
+| How likely to build with Meta Model API * | The founder's own answer |
+| Overall opinion of Meta Model API * | The founder's own answer |
+
+**Project Description:**
 worksheet-coach is a multi-step agent for adults helping with math: parents, tutors, teachers,
-and adult learners (GED, ASVAB, nursing dosage, trades math). Photograph a completed worksheet.
-Muse Spark plans the page and SAM 3.1 gives pixel-accurate geometry for every number, so each
-problem is graded on its own crop with evidence the adult can check. Muse Spark then finds the
-single rule that reproduces every wrong answer, writes practice problems where that rule gives a
-visibly wrong answer, and checks its own answer key with independent re-solves and a judge call
-before anything is printed. Muse Image illustrates the printable sheet; numbers are typeset in
-code. On a 30-sheet test set with handwriting and phone photos, it split every sheet correctly and
-got 184/184 verdicts right.
+and adult learners (GED, ASVAB, nursing dosage, trades math). Take a photo of a finished
+worksheet. A wrong answer on its own says little: "47 + 38 = 75" and "59 + 36 = 85" are one habit,
+the ten never carried. The agent grades every problem with evidence the adult can check, finds
+the single habit that reproduces every wrong answer, and writes a short practice sheet where that
+habit gives a visibly wrong answer, with an answer key it checks before anything is printed. Not
+twenty more problems: the five that matter. On a 30-sheet test set with handwriting and phone
+photos it split every sheet correctly and got 184 of 184 verdicts right. Built entirely during
+the event; it is for adults (18+) and is a helper, not a grade.
 
-**Which Meta model does what:**
-- Muse Spark 1.3: plans the page layout, grades each problem crop (structured output), finds the
-  pattern, drafts practice, re-solves and judges the answer key, writes the summary and the
-  illustration idea.
-- SAM 3.1: segments every number on the page; problem regions are tightened to its boxes.
-- Muse Image 1.0: draws the practice sheet's illustration.
+**Describe your use of Meta products:**
+- Muse Spark 1.3 (Standard mode): reads the page and plans it (every problem, its number and
+  where it sits, across columns and stacked layouts); grades each problem on its own crop with
+  structured output; finds the habit across the sheet and shows it reproduces each wrong answer;
+  drafts practice that records the answer the habit would give; judges answer-key disagreements;
+  writes the 30-second summary and the illustration idea.
+- SAM 3.1: segments every number on the page in parallel with Spark's plan; each planned problem
+  is tightened to SAM's pixel boxes (Spark decides what to segment, SAM gives the geometry).
+- Muse Image 1.0: draws the printable sheet's illustration; problems and answers are typeset in
+  code so no digit is misdrawn.
+- Muse Spark Open (open weights, `meta-models/muse-spark-open-1026` on Baseten): re-solves every
+  practice answer without seeing the draft, a second opinion from a different model. *Keep this
+  bullet only if #17 is switched on; otherwise say the re-solve is a separate Muse Spark call.*
 
-**Track:** indie. **Theme:** Build for Your World.
+**Why are Meta's models important to your solution?**
+The product only works if a model can read a phone photo of handwriting, plan an irregular page,
+and reason about *how* a wrong answer was produced, not just that it is wrong. Muse Spark does
+the reading, planning and reasoning with structured output, so every step is checkable in code.
+SAM 3.1 adds what a language model cannot: exact pixel geometry, so each problem is graded on
+its own crop and the evidence stays attached to it. Muse Image makes the sheet something you
+want to print. Together they let one agent go from a photo to a checked practice sheet in a
+couple of minutes for about ten cents.
 
-**Bonus prizes to opt into:** best agentic use case; community vote; most viral (needs the X post
-link). Not best open-weights build unless Muse Spark Open is actually used (#17).
+**Partner feedback (only if Baseten was used):** what worked, what was hard, in the founder's
+words; note that the Baseten docs name `meta-models/muse-spark-open` while the hackathon needs
+`meta-models/muse-spark-open-1026`.
 
-**Prior work:** none. Everything was built during the event in this repo.
+**The two opinion questions** are the founder's own. Facts that may help: during the first days
+about half of calls failed with `model_not_found` and the app had to retry; on 2026-10-29, 12 of
+12 calls succeeded first try in about a second each. Billing has no hard cap, so the app enforces
+its own.
 
 ## X post (draft)
 

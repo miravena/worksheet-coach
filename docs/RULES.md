@@ -64,9 +64,10 @@ the kickoff (Oct 26, 12:00 PM ET). The Official Rules also require it to be our 
 - What to submit (kickoff, Oct 26): the **3-minute demo video** (a major part of judging; produce it
   well, with a good voiceover: the problem, what we built, the product working) and the **public
   GitHub repo** (judges review it).
-- **Bonus prizes are opt-in on the form**: call out each bonus prize we enter. Most viral needs a
-  link to our post on X.
-- Prior work must be declared on the form. We have none: everything is built fresh (below).
+- The form (seen 2026-10-29, fields in [SUBMISSION.md](SUBMISSION.md)) has no bonus-prize
+  checkboxes: most viral needs the link to our X post in its own field; the open-weights and
+  creative bonuses are flagged by the judges in round one. It has no live-demo URL field and no
+  prior-work question; we have no prior work anyway (everything is built fresh, below).
 
 ### How judging works (kickoff)
 
