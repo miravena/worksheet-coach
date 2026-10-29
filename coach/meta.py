@@ -243,41 +243,39 @@ def open_chat(messages: list[dict], *, schema: dict | None = None, schema_name: 
               effort: str = "low", max_tokens: int = 8000) -> tuple[object, CallStats]:
     """Muse Spark Open (open weights) on Baseten, OpenAI-compatible Chat Completions.
 
-    Asks for structured output; if the provider rejects the schema, asks for plain JSON instead."""
+    Asks for JSON in the prompt, not with `response_format`: under strict json_schema the model
+    writes `{"answer":` and then whitespace until max_tokens (seen 2026-10-29), so every call
+    failed and fell back to Spark. One retry if the reply has no parseable JSON."""
     key = os.environ.get("BASETEN_API_KEY")
     if not key:
         raise MetaAPIError("BASETEN_API_KEY is not set (put it in .env)")
-    OPEN_LEDGER.check(0.01)
+    if schema is not None:
+        messages = messages + [{"role": "user", "content":
+                                "Reply with only a JSON object matching this schema, no other text: "
+                                + json.dumps(schema)}]
     payload: dict = {"model": SPARK_OPEN, "messages": messages, "max_tokens": max_tokens,
                      "reasoning_effort": effort}
-    if schema is not None:
-        payload["response_format"] = {
-            "type": "json_schema",
-            "json_schema": {"name": schema_name, "schema": schema, "strict": True},
-        }
     t0 = time.time()
-    try:
-        r, n = post("/chat/completions", payload, base_url=BASETEN_URL, key=key, attempts=6)
-    except MetaAPIError as e:
-        if schema is None or "HTTP 4" not in str(e):
-            raise
-        payload.pop("response_format", None)
-        payload.pop("reasoning_effort", None)
-        payload["messages"] = messages + [{"role": "user", "content":
-                                           "Reply with only a JSON object matching this schema: "
-                                           + json.dumps(schema)}]
-        r, n = post("/chat/completions", payload, base_url=BASETEN_URL, key=key, attempts=6)
-    data = r.json()
-    usage = data.get("usage") or {}
-    tin = int(usage.get("prompt_tokens") or 0)
-    tout = int(usage.get("completion_tokens") or 0)
-    usd = (tin * OPEN_PRICE_IN_PER_M + tout * OPEN_PRICE_OUT_PER_M) / 1e6
-    OPEN_LEDGER.charge(usd)
-    stats = CallStats(SPARK_OPEN, time.time() - t0, usd, n, tin, tout)
-    content = (data["choices"][0]["message"].get("content") or "").strip()
-    if schema is None:
-        return content, stats
-    return _json_from_text(content), stats
+    usd, n, tin, tout = 0.0, 0, 0, 0
+    for attempt in (1, 2):
+        OPEN_LEDGER.check(0.01)
+        r, tries = post("/chat/completions", payload, base_url=BASETEN_URL, key=key, attempts=6)
+        n += tries
+        data = r.json()
+        usage = data.get("usage") or {}
+        t_in = int(usage.get("prompt_tokens") or 0)
+        t_out = int(usage.get("completion_tokens") or 0)
+        cost = (t_in * OPEN_PRICE_IN_PER_M + t_out * OPEN_PRICE_OUT_PER_M) / 1e6
+        OPEN_LEDGER.charge(cost)
+        usd, tin, tout = usd + cost, tin + t_in, tout + t_out
+        content = (data["choices"][0]["message"].get("content") or "").strip()
+        if schema is None:
+            return content, CallStats(SPARK_OPEN, time.time() - t0, usd, n, tin, tout)
+        try:
+            return _json_from_text(content), CallStats(SPARK_OPEN, time.time() - t0, usd, n, tin, tout)
+        except (MetaAPIError, ValueError):
+            if attempt == 2:
+                raise
 
 
 def user_msg(text: str, *images) -> dict:
