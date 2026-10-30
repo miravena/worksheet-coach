@@ -1,6 +1,7 @@
 #!/bin/sh
 # pre-push: last local gate before anything becomes public.
-# BLOCK if a pushed commit message carries a private tracker id. Cite GitHub issues (#N) only.
+# BLOCK if a pushed commit message carries a private tracker id (cite GitHub issues #N only)
+# or a Claude-Session trailer.
 status=0
 zero=0000000000000000000000000000000000000000
 while read -r _ local_sha _ remote_sha; do
@@ -12,6 +13,12 @@ while read -r _ local_sha _ remote_sha; do
   if [ -n "$ids" ]; then
     echo "pre-push: BLOCKED: private tracker ids in commit messages (cite GitHub #N only):" >&2
     printf '%s\n' "$ids" | sed 's/^/  /' >&2
+    status=1
+  fi
+  sess=$(git log --format='%h %B' "$range" 2>/dev/null | grep -iE "^Claude-Session:" || true)
+  if [ -n "$sess" ]; then
+    echo "pre-push: BLOCKED: Claude-Session trailer in a commit (internal session link; disclose AI with Co-Authored-By only):" >&2
+    printf '%s\n' "$sess" | sed 's/^/  /' >&2
     status=1
   fi
 done
