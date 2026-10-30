@@ -45,7 +45,7 @@ Per-problem crops keep the evidence attached to the problem, and the adult can c
 30 generated worksheets with planted mistakes and answer keys (`tests/worksheets/`): school and
 adult topics (GED, ASVAB, nursing dosage and trades math), 17 with handwritten answers, 15 as
 phone-photo versions (tilt, shadow, blur, JPEG), two-column and stacked layouts, three
-all-correct controls, one isolated slip and one blank answer. Run of 2026-10-29, using the
+all-correct controls, one isolated slip and one blank answer. Run of 2026-10-30, using the
 phone photo wherever a sheet has one:
 
 | Measure | Score |
@@ -53,16 +53,18 @@ phone photo wherever a sheet has one:
 | Sheets split into the right problems | 30/30 |
 | Right/wrong verdicts matching the answer key | 184/184 |
 | Written answers read correctly | 184/184 |
-| Written answers read the same by both readers (Muse Spark 1.3 and Muse Spark Open) | 183/184 |
+| Written answers read the same by both readers (Muse Spark 1.3 and Muse Spark Open) | 184/184 |
 | Planted habit found (judged by a separate Spark call) | 28/30 |
 
-The one reading difference was spacing only (`-2x + 5` against `-2x+5`); readings are now compared
-ignoring spaces. No misread went unflagged: when both readers agreed, they were right.
+No misread went unflagged: when both readers agreed, they were right. (The run before had one
+difference, spacing only, `-2x + 5` against `-2x+5`; readings are now compared ignoring spaces.)
 
-The two pattern misses, checked by hand, are both the judge call being too strict: on ws15 the
-agent wrote "adds same change to second term instead of scaling proportionally" for the planted
-"adds the same amount to both sides instead of scaling by a factor", and on ws25 "uses max
-decimal places instead of adding them" for the planted decimal-count habit. In earlier runs ws02
+The two pattern misses, checked by hand, are both the judge call being too strict: on ws13 the
+agent wrote "subtracts a negative instead of adding its opposite" for the planted "treats
+subtracting a negative as subtracting a positive", and on ws27 "multiplies by 2.2 for every
+conversion" for the planted "multiplies by 2.2 when changing pounds to kilograms" (the sheet's
+kilograms-to-pounds problems are right, because there multiplying is correct). The run before
+missed ws15 and ws25 the same way, so which sheets the judge rejects varies. In earlier runs ws02
 sometimes misses: "subtracts the smaller digit from the larger" and "borrows but does not reduce
 the tens" give identical answers on all six problems, so that sheet cannot tell them apart.
 

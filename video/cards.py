@@ -29,7 +29,7 @@ two columns, stacked problems, GED, ASVAB, nursing and trades math</h2>
 <tr><td>Sheets split into the right problems</td><td class="n">30/30</td></tr>
 <tr><td>Right/wrong verdicts matching the answer key</td><td class="n">184/184</td></tr>
 <tr><td>Written answers read correctly</td><td class="n">184/184</td></tr>
-<tr><td>Both readers agree (Muse Spark + Muse Spark Open)</td><td class="n">183/184</td></tr>
+<tr><td>Both readers agree (Muse Spark + Muse Spark Open)</td><td class="n">184/184</td></tr>
 </table>
 <p><small>python3 tests/accuracy.py --photo --pattern · run of Oct 29, 2026 · the one
 reader difference was spacing only</small></p></div>"""

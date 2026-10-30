@@ -63,8 +63,7 @@ the event; it is for adults (18+) and is a helper, not a grade.
 - Muse Spark Open (open weights, `meta-models/muse-spark-open-1026` on Baseten), two independent
   checks by a different model: (1) a second reading of every handwritten answer, made on the same
   crop without seeing Spark's reading; if the readings differ the problem is flagged for the adult
-  (on the 30-sheet test the two readers agreed on 183 of 184 answers, and the one difference was
-  spacing); (2) re-solving every practice answer without seeing the draft key, before anything
+  (on the 30-sheet test the two readers agreed on 184 of 184 answers); (2) re-solving every practice answer without seeing the draft key, before anything
   is printed. Under a cent per worksheet.
 
 **Why are Meta's models important to your solution?**
