@@ -74,3 +74,16 @@ def test_files_only_under_practice():
     assert client.get("/files/spend.json").status_code == 404
     assert client.get("/files/practice/../spend.json").status_code == 404
     assert client.get("/files/practice/nope.pdf").status_code == 404
+
+
+def test_without_a_key_samples_replay_from_the_committed_runs(monkeypatch):
+    monkeypatch.delenv("META_MODEL_API_KEY", raising=False)
+    monkeypatch.delenv("MODEL_API_KEY", raising=False)
+    monkeypatch.setattr(webapp, "CACHE_DIR", webapp.ROOT / "no-such-cache")
+    r = client.post("/api/run?sample=ws13")
+    assert r.status_code == 200 and r.json()["replay"] is True
+    body = client.get(f"/api/jobs/{r.json()['job']}/events").text
+    assert "event: done" in body
+    pdf = next(webapp.REPLAY_DIR.glob("practice-*.pdf")).name
+    assert client.get(f"/files/practice/{pdf}").status_code == 200
+    assert client.get("/files/practice/../ws13.json").status_code == 404

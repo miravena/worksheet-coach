@@ -77,7 +77,9 @@ grade.
 
 ## Run it
 
-Needs Python 3.10+ and a Meta Model API key.
+Needs Python 3.10+. Without a Meta Model API key the app still runs: the sample sheets replay
+saved live runs (`samples/replay/`, every step, verdict and the printable sheet), and only
+uploads need a key.
 
 ```sh
 pip install -r requirements.txt
@@ -98,7 +100,7 @@ Settings (environment or `.env`):
 | `MAX_CONCURRENT_RUNS` | 2 | Runs at once |
 | `RUN_COST_ESTIMATE` | 0.30 | Spend assumed per run when checking the cap |
 | `DEMO_TOKEN` | unset | If set, runs need `?token=` |
-| `REPLAY` | unset | `1` replays a saved run of a sample sheet instead of calling the API |
+| `REPLAY` | unset | `1` replays a saved run of a sample sheet instead of calling the API; on by default when no key is set |
 
 Command line: `python3 tests/accuracy.py ws01 ws05` scores some sheets;
 `python3 -m pytest tests/test_app.py` tests the web app with the pipeline stubbed.
@@ -117,6 +119,7 @@ Command line: `python3 tests/accuracy.py ws01 ws05` scores some sheets;
 | `coach/summary.py` | The 30-second summary |
 | `coach/pipeline.py` | The agent loop, reporting each step |
 | `app.py`, `web/` | Web app: upload, live view (Server-Sent Events), results |
+| `samples/replay/` | Saved live runs of the eight sample sheets, with their printable sheets, for running without a key |
 | `tests/` | Test set generator, accuracy script, web app tests |
 | `video/` | Builds the demo video from a live run: AI narration, browser recording, captions |
 

@@ -8,7 +8,8 @@ Environment (all optional):
   MAX_CONCURRENT_RUNS   global concurrent pipeline runs, default 2
   RUN_COST_ESTIMATE     USD assumed per run for the spend-cap check, default 0.30
   DEMO_TOKEN            if set, /api/run needs it as ?token= or the X-Demo-Token header
-  REPLAY=1              replay out/cache/<sample>.json for sample runs instead of calling the API
+  REPLAY=1              replay a saved run of a sample sheet instead of calling the API (out/cache/,
+                        else the committed samples/replay/); on by default when no API key is set
   TRUST_PROXY=1         take the client IP from X-Forwarded-For (only behind a proxy you control)
 """
 
@@ -35,6 +36,7 @@ ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "out"
 PRACTICE_DIR = OUT / "practice"
 CACHE_DIR = OUT / "cache"
+REPLAY_DIR = ROOT / "samples" / "replay"  # committed runs, so the app works without a key
 SAMPLES_DIR = ROOT / "tests" / "worksheets"
 WEB_DIR = ROOT / "web"
 
@@ -185,9 +187,22 @@ def _run_live(job: Job, img: Image.Image, sample: str | None) -> None:
             ACTIVE -= 1
 
 
+def _saved_run(sample: str) -> Path | None:
+    for d in (CACHE_DIR, REPLAY_DIR):
+        if (d / f"{sample}.json").is_file():
+            return d / f"{sample}.json"
+    return None
+
+
+def _replay_on() -> bool:
+    if os.environ.get("REPLAY") == "1":
+        return True
+    return not (os.environ.get("META_MODEL_API_KEY") or os.environ.get("MODEL_API_KEY"))
+
+
 def _run_replay(job: Job, sample: str) -> None:
     try:
-        cached = json.loads((CACHE_DIR / f"{sample}.json").read_text())
+        cached = json.loads(_saved_run(sample).read_text())
         prev = 0.0
         for s in cached.get("steps", []):
             t = float(s.get("t", prev) or prev)
@@ -217,7 +232,7 @@ def samples() -> list[dict]:
             except (ValueError, OSError):
                 pass
         out.append({"id": p.stem, "title": title,
-                    "cached": (CACHE_DIR / f"{p.stem}.json").exists()})
+                    "cached": _saved_run(p.stem) is not None})
     return out
 
 
@@ -233,7 +248,7 @@ async def run(request: Request, sample: str | None = None, file: UploadFile | No
     _check_token(request)
     _prune_jobs()
 
-    replay = bool(sample) and os.environ.get("REPLAY") == "1" and (CACHE_DIR / f"{sample}.json").exists()
+    replay = bool(sample) and _replay_on() and _saved_run(sample) is not None
 
     if sample:
         img = _prepare_image(_sample_path(sample).read_bytes())
@@ -316,13 +331,14 @@ async def job_events(job_id: str, request: Request) -> StreamingResponse:
 
 @app.get("/files/{path:path}")
 def files(path: str) -> FileResponse:
-    """Only files the pipeline wrote under out/practice/."""
-    root = PRACTICE_DIR.resolve()
-    target = (OUT / path).resolve()
+    """Only files the pipeline wrote under out/practice/, or a committed replay's sheet."""
     rel = path.split("/", 1)
-    if rel[0] != "practice" or root not in target.parents or not target.is_file():
-        raise HTTPException(404, "Not found.")
-    return FileResponse(target)
+    if rel[0] == "practice" and len(rel) == 2:
+        for root in (PRACTICE_DIR.resolve(), REPLAY_DIR.resolve()):
+            target = (root / rel[1]).resolve()
+            if root in target.parents and target.is_file():
+                return FileResponse(target)
+    raise HTTPException(404, "Not found.")
 
 
 app.mount("/", StaticFiles(directory=WEB_DIR, html=True), name="web")
